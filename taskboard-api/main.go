@@ -16,6 +16,7 @@ func main() {
 	})
 
 	router.GET("/tasks", handlers.GetTasks)
+	router.POST("/tasks",handlers.CreateTasks)
 
 	err := router.Run(":8080")
 	if err != nil {
