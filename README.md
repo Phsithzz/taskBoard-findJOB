@@ -6,14 +6,14 @@ A Full-Stack Task Board / To-Do Management application.
 
 ```text
 taskBoard-findJOB/
-├── backend/            # Backend API (Golang + Gin)
-│   ├── handlers/       # Request handlers / controllers
-│   ├── models/         # Data models and structures
-│   ├── store/          # Data storage / database layer
-│   ├── go.mod          # Go dependencies
+├── taskboard-api/       # Backend API (Golang + Gin)
+│   ├── handlers/        # Request handlers / controllers
+│   ├── models/          # Data models and structures
+│   ├── store/           # Data storage / database layer
+│   ├── go.mod           # Go dependencies
 │   ├── go.sum
-│   └── main.go         # Server entry point
-├── frontend/           # Frontend client (Coming soon)
+│   └── main.go          # Server entry point
+├── taskboard-web/       # Frontend Web client (Coming soon)
 │   └── README.md
 ├── .gitignore
 └── README.md
@@ -24,10 +24,10 @@ taskBoard-findJOB/
 ### Prerequisites
 - [Go](https://go.dev/) (version 1.21+ recommended)
 
-### Running the Backend
+### Running the API
 
 ```bash
-cd backend
+cd taskboard-api
 go run .
 ```
 
@@ -40,6 +40,6 @@ The API will start listening on `http://localhost:8080`.
 | GET | `/` | Health check endpoint |
 | GET | `/tasks` | Retrieve all tasks |
 
-## Frontend
+## Frontend (taskboard-web)
 
 Coming soon...

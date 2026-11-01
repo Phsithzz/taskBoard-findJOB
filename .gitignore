@@ -6,7 +6,7 @@
 *.dylib
 *.test
 *.out
-backend/taskboard-api
+taskboard-api/taskboard-api
 
 # Go workspace & vendor
 /vendor/
