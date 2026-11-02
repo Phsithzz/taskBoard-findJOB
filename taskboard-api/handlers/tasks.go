@@ -20,7 +20,11 @@ func CreateTasks(c *gin.Context) {
 		return
 	}
 
-	created := store.Add(t)
+	created, err := store.Add(t)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusCreated, created)
 }

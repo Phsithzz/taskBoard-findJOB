@@ -11,6 +11,7 @@ taskBoard-findJOB/
 │   ├── models/          # Data models and structures
 │   ├── store/           # Data storage / database layer
 │   ├── docker-compose.yml # MongoDB service container
+│   ├── .env.example     # Environment variables template
 │   ├── go.mod           # Go dependencies
 │   ├── go.sum
 │   └── main.go          # Server entry point
