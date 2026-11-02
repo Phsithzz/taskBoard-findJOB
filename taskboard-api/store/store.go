@@ -6,10 +6,9 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 
 	"taskboard-api/models"
 )
@@ -29,7 +28,7 @@ func Connect() {
 		dbName = "taskboard"
 	}
 
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
 		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
@@ -65,7 +64,7 @@ func Add(t models.Task) (models.Task, error) {
 	if t.Status == "" {
 		t.Status = "planned"
 	}
-	t.ID = primitive.NewObjectID()
+	t.ID = bson.NewObjectID()
 
 	_, err := coll.InsertOne(context.TODO(), t)
 	if err != nil {
@@ -76,7 +75,7 @@ func Add(t models.Task) (models.Task, error) {
 }
 
 func Update(id string, t models.Task) (models.Task, bool) {
-	objID, err := primitive.ObjectIDFromHex(id)
+	objID, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return models.Task{}, false
 	}
@@ -100,7 +99,7 @@ func Update(id string, t models.Task) (models.Task, bool) {
 }
 
 func Delete(id string) bool {
-	objID, err := primitive.ObjectIDFromHex(id)
+	objID, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return false
 	}

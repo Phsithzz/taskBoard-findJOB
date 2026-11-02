@@ -10,13 +10,16 @@ taskBoard-findJOB/
 │   ├── handlers/        # Request handlers / controllers
 │   ├── models/          # Data models and structures
 │   ├── store/           # Data storage / database layer
+│   ├── Dockerfile       # Production multi-stage build container
 │   ├── docker-compose.yml # MongoDB service container
 │   ├── .env.example     # Environment variables template
 │   ├── go.mod           # Go dependencies
 │   ├── go.sum
 │   └── main.go          # Server entry point
-├── taskboard-web/       # Frontend Web client (Coming soon)
-│   └── README.md
+├── taskboard-web/       # Frontend Web client (React + Vite)
+│   ├── src/             # React components and pages
+│   ├── package.json     # Node dependencies and scripts
+│   └── vite.config.js
 ├── .gitignore
 └── README.md
 ```
@@ -45,6 +48,17 @@ The API will start listening on `http://localhost:8080`.
 | PUT | `/tasks/:id` | Update an existing task |
 | DELETE | `/tasks/:id` | Delete a task |
 
-## Frontend (taskboard-web)
+## Frontend Getting Started (taskboard-web)
 
-Coming soon...
+### Prerequisites
+- [Node.js](https://nodejs.org/) (version 18+ recommended)
+
+### Running the Web App
+
+```bash
+cd taskboard-web
+npm install
+npm run dev
+```
+
+The frontend will run on `http://localhost:5173`.
