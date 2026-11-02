@@ -1,6 +1,9 @@
 package store
 
-import "taskboard-api/models"
+import (
+	"strconv"
+	"taskboard-api/models"
+)
 
 var tasks = []models.Task{
 	{
@@ -33,4 +36,36 @@ func Add(t models.Task) models.Task {
 	tasks = append(tasks, t)
 
 	return t
+}
+
+func Update(id string, t models.Task) (models.Task, bool) {
+	n, err := strconv.Atoi(id)
+	if err != nil {
+		return models.Task{}, false
+	}
+
+	for i, existing := range tasks {
+		if existing.ID == n {
+			t.ID = n
+			tasks[i] = t
+			return t, true
+		}
+	}
+
+	return models.Task{}, false
+}
+
+func Delete(id string) bool {
+	n, err := strconv.Atoi(id)
+	if err != nil {
+		return false
+	}
+
+	for i, existing := range tasks {
+		if existing.ID == n {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			return true
+		}
+	}
+	return false
 }

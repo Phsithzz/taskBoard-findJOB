@@ -40,6 +40,8 @@ The API will start listening on `http://localhost:8080`.
 | GET | `/` | Health check endpoint |
 | GET | `/tasks` | Retrieve all tasks |
 | POST | `/tasks` | Create a new task |
+| PUT | `/tasks/:id` | Update an existing task |
+| DELETE | `/tasks/:id` | Delete a task |
 
 ## Frontend (taskboard-web)
 
