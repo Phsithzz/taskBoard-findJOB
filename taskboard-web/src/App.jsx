@@ -21,7 +21,7 @@ const App = () => {
         })
         setTasks(response.data)
       } catch (err) {
-        // หากเป็นการ cancel จาก unmount จะไม่เซ็ต error state
+      
         if (axios.isCancel(err)) return
         setError(err.response?.data?.error || err.message || 'Failed to fetch tasks')
       } finally {
@@ -31,7 +31,7 @@ const App = () => {
 
     fetchTasks()
 
-    // Cleanup function
+
     return () => {
       controller.abort()
     }
@@ -40,7 +40,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-        {/* Header */}
+      
         <header className="mb-8 flex items-center justify-between border-b border-slate-200 pb-5">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">TaskBoard</h1>
@@ -51,7 +51,7 @@ const App = () => {
           </span>
         </header>
 
-        {/* Loading State */}
+      
         {loading && (
           <div className="flex h-48 items-center justify-center">
             <div className="flex items-center space-x-2 text-slate-500">
@@ -64,7 +64,7 @@ const App = () => {
           </div>
         )}
 
-        {/* Error State */}
+      
         {error && !loading && (
           <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-red-700 mb-6">
             <p className="font-semibold text-sm">เกิดข้อผิดพลาดในการโหลดข้อมูล:</p>
@@ -73,7 +73,7 @@ const App = () => {
           </div>
         )}
 
-        {/* Task List */}
+     
         {!loading && !error && tasks.length === 0 && (
           <div className="rounded-lg border-2 border-dashed border-slate-300 p-12 text-center">
             <p className="text-sm text-slate-500">ยังไม่มีงานในระบบ</p>
