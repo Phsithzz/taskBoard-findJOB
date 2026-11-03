@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -15,7 +16,10 @@ func InitDB() *mongo.Database {
 
 	uri := os.Getenv("MONGO_URI")
 	if uri == "" {
+		log.Println("[WARN] MONGO_URI is not set! Defaulting to mongodb://localhost:27017")
 		uri = "mongodb://localhost:27017"
+	} else {
+		log.Println("[INFO] MONGO_URI detected, connecting to MongoDB Atlas...")
 	}
 
 	dbName := os.Getenv("DB_NAME")
@@ -23,15 +27,18 @@ func InitDB() *mongo.Database {
 		dbName = "taskboard"
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	client, err := mongo.Connect(options.Client().ApplyURI(uri))
 	if err != nil {
-		log.Fatalf("Failed to connect to MongoDB: %v", err)
+		log.Fatalf("[ERROR] Failed to connect to MongoDB: %v", err)
 	}
 
-	if err := client.Ping(context.TODO(), nil); err != nil {
-		log.Fatalf("Failed to ping MongoDB: %v", err)
+	if err := client.Ping(ctx, nil); err != nil {
+		log.Fatalf("[ERROR] Failed to ping MongoDB: %v", err)
 	}
 
-	log.Printf("Connected to MongoDB at %s (db: %s)\n", uri, dbName)
+	log.Printf("[INFO] Successfully connected to MongoDB database: %s\n", dbName)
 	return client.Database(dbName)
 }
