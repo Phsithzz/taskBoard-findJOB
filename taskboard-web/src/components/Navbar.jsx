@@ -14,7 +14,6 @@ export const Navbar = () => {
   return (
     <nav className="border-b border-slate-200/80 bg-white sticky top-0 z-30 shadow-2xs">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
-        {/* Logo & Quick Stats */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 text-white shadow-sm font-black text-base tracking-wider">
@@ -43,7 +42,6 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Action Button & User Profile Avatar */}
         <div className="flex items-center space-x-3 sm:space-x-4">
           <button
             onClick={() => openCreateModal('applied')}
@@ -55,7 +53,6 @@ export const Navbar = () => {
             <span>+ New Job Application</span>
           </button>
 
-          {/* User Profile Avatar from Portfolio */}
           <div className="relative group cursor-pointer" title="Phoosith Profile">
             <img
               src="/profile.jpg"

@@ -4,12 +4,10 @@ import { jobApi } from '../services/api'
 import { DEFAULT_PLATFORMS } from '../constants/statusConfig'
 
 export const useJobStore = create((set, get) => ({
-  // State
   jobs: [],
   loading: true,
   error: null,
 
-  // Platforms (Custom platforms saved in localStorage)
   platforms: (() => {
     try {
       const saved = localStorage.getItem('taskboard_platforms')
@@ -19,19 +17,16 @@ export const useJobStore = create((set, get) => ({
     }
   })(),
 
-  // Filters & Search
   searchQuery: '',
   selectedPlatformFilter: 'all',
   selectedStatusFilter: 'all',
   onlyStarred: false,
 
-  // Modals & UI States
   isModalOpen: false,
   editingJob: null,
   activeDropdownId: null,
   dragOverColumn: null,
 
-  // Actions
   fetchJobs: async (signal) => {
     try {
       set({ loading: true, error: null })
@@ -122,7 +117,6 @@ export const useJobStore = create((set, get) => ({
     }
   },
 
-  // Modal Control
   openCreateModal: (defaultStatus = 'applied') => {
     set({
       editingJob: null,
@@ -143,7 +137,6 @@ export const useJobStore = create((set, get) => ({
     set({ isModalOpen: false, editingJob: null })
   },
 
-  // UI Filters
   setSearchQuery: (q) => set({ searchQuery: q }),
   setSelectedPlatformFilter: (p) => set({ selectedPlatformFilter: p }),
   setSelectedStatusFilter: (s) => set({ selectedStatusFilter: s }),

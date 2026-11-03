@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { useJobStore } from './stores/useJobStore'
 import { Navbar } from './components/Navbar'
 import { FilterBar } from './components/FilterBar'
@@ -20,19 +20,13 @@ export default function App() {
       onClick={() => setActiveDropdownId(null)}
       className="min-h-screen bg-slate-100/70 font-sans text-slate-800 flex flex-col selection:bg-indigo-500 selection:text-white"
     >
-      {/* Top Navbar */}
       <Navbar />
 
-      {/* Main Content Area */}
       <main className="flex-1 w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {/* Search, Filter & Actions Bar */}
         <FilterBar />
-
-        {/* Kanban Board with Drag & Drop Columns */}
         <KanbanBoard />
       </main>
 
-      {/* Add / Edit Job Modal */}
       <JobModal />
     </div>
   )

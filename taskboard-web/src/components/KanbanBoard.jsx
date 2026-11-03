@@ -18,10 +18,8 @@ export const KanbanBoard = () => {
   const updateJobStatus = useJobStore((state) => state.updateJobStatus)
   const fetchJobs = useJobStore((state) => state.fetchJobs)
 
-  // Filtered jobs calculation
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
-      // Search query filter
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase()
         const matchTitle = (job.title || '').toLowerCase().includes(q)
@@ -33,14 +31,12 @@ export const KanbanBoard = () => {
         }
       }
 
-      // Platform filter
       if (selectedPlatformFilter !== 'all') {
         if ((job.platform || 'LinkedIn') !== selectedPlatformFilter) {
           return false
         }
       }
 
-      // Starred filter
       if (onlyStarred && !job.starred) {
         return false
       }
@@ -49,7 +45,6 @@ export const KanbanBoard = () => {
     })
   }, [jobs, searchQuery, selectedPlatformFilter, onlyStarred])
 
-  // Drag and Drop handlers
   const handleDragStart = (e, jobId) => {
     e.dataTransfer.setData('text/plain', jobId)
     e.dataTransfer.effectAllowed = 'move'
@@ -64,7 +59,6 @@ export const KanbanBoard = () => {
   }
 
   const handleDragLeave = (e, statusKey) => {
-    // Only clear if leaving the column boundary
     if (e.currentTarget.contains(e.relatedTarget)) return
     if (dragOverColumn === statusKey) {
       setDragOverColumn(null)
@@ -83,7 +77,6 @@ export const KanbanBoard = () => {
     }
   }
 
-  // Determine which columns to show
   const activeColumns = useMemo(() => {
     if (selectedStatusFilter !== 'all') {
       return COLUMN_KEYS.filter((k) => k === selectedStatusFilter)
@@ -105,7 +98,6 @@ export const KanbanBoard = () => {
 
   return (
     <div className="space-y-4">
-      {/* Error alert if any */}
       {error && (
         <div className="flex items-center justify-between rounded-xl bg-rose-50 border border-rose-200 p-4 text-rose-800 text-sm">
           <div className="flex items-center gap-2">
@@ -121,7 +113,6 @@ export const KanbanBoard = () => {
         </div>
       )}
 
-      {/* Columns Grid / Horizontal Scroll */}
       <div className="flex gap-4 overflow-x-auto pb-6 pt-1 px-1">
         {activeColumns.map((colKey) => {
           const columnJobs = filteredJobs.filter(

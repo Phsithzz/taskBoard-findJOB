@@ -6,7 +6,6 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
-// Job represents a job application entity in the domain layer
 type Job struct {
 	ID        bson.ObjectID `bson:"_id,omitempty" json:"id"`
 	Title     string        `bson:"title" json:"title"`
@@ -24,7 +23,6 @@ type Job struct {
 	CreatedAt string        `bson:"created_at" json:"created_at"`
 }
 
-// JobRepository defines the interface for data access layer
 type JobRepository interface {
 	FindAll(ctx context.Context) ([]Job, error)
 	Create(ctx context.Context, job Job) (Job, error)
@@ -32,7 +30,6 @@ type JobRepository interface {
 	Delete(ctx context.Context, id string) (bool, error)
 }
 
-// JobService defines the interface for business logic layer
 type JobService interface {
 	GetAllJobs(ctx context.Context) ([]Job, error)
 	CreateJob(ctx context.Context, job Job) (Job, error)

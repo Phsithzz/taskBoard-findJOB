@@ -28,7 +28,6 @@ export const KanbanColumn = ({
           : 'bg-slate-50/60 border-slate-200/80'
       }`}
     >
-      {/* Column Header */}
       <div className="flex items-center justify-between p-3.5 border-b border-slate-200/60">
         <div className="flex items-center gap-2">
           <span className={`inline-flex items-center justify-center w-6 h-6 rounded-lg ${statusInfo.pillClass} shadow-xs`}>
@@ -45,12 +44,10 @@ export const KanbanColumn = ({
         </div>
 
         <div className="flex items-center gap-1.5">
-          {/* Job Counter Badge */}
           <span className={`rounded-full px-2 py-0.5 text-xs font-bold border ${statusInfo.badgeClass}`}>
             {jobs.length}
           </span>
 
-          {/* Quick Add Button */}
           <button
             type="button"
             title={`เพิ่มงานในสถานะ ${statusInfo.label}`}
@@ -64,7 +61,6 @@ export const KanbanColumn = ({
         </div>
       </div>
 
-      {/* Column Cards Container */}
       <div className="flex-1 p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-250px)] min-h-[160px]">
         {jobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-32 rounded-xl border border-dashed border-slate-300/80 text-center p-4 text-xs text-slate-400">

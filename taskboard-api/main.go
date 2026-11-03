@@ -15,15 +15,12 @@ import (
 )
 
 func main() {
-	// 1. Initialize MongoDB Database
 	db := config.InitDB()
 
-	// 2. Initialize Clean Architecture Layers (Repo -> Service -> Handler)
 	jobRepo := repository.NewMongoJobRepository(db)
 	jobService := service.NewJobService(jobRepo)
 	jobHandler := handlers.NewJobHandler(jobService)
 
-	// 3. Gin Engine Setup
 	router := gin.Default()
 	router.Use(cors.Default())
 
@@ -31,7 +28,6 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "JobHunt Tracker API is running"})
 	})
 
-	// 4. Register Routes
 	tasks := router.Group("/tasks")
 	{
 		tasks.GET("", jobHandler.GetJobs)
