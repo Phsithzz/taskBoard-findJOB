@@ -20,12 +20,27 @@ export default function App() {
   return (
     <div
       onClick={() => setActiveDropdownId(null)}
-      className="min-h-screen bg-gradient-to-br from-[#D8F3E5] via-[#EBF7F1] to-[#D5EFE2] font-sans text-slate-800 p-3 sm:p-5 lg:p-7 selection:bg-emerald-500 selection:text-white"
+      className="min-h-screen bg-[#7D39EB] font-sans text-slate-900 flex flex-col selection:bg-[#C6FF33] selection:text-black"
     >
-      <div className="w-full max-w-[1850px] mx-auto flex flex-col gap-5">
+      <div className="w-full bg-[#C6FF33] text-black font-mono font-black text-[11px] uppercase tracking-widest py-1.5 px-4 sm:px-8 border-b-2 border-black flex items-center justify-between overflow-hidden select-none">
+        <div className="flex items-center gap-6">
+          <span>● LIVE APPLICATION TRACKING</span>
+          <span className="hidden sm:inline">● SCALABLE CAREER PIPELINE</span>
+          <span className="hidden md:inline">● COMMUNITY DRIVEN</span>
+          <span>● MADE FOR THE FUTURE</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-3 text-[10px]">
+          <span className="bg-black text-[#C6FF33] px-2 py-0.5 rounded font-black">
+            GRIDSTER // 2026
+          </span>
+          <span className="font-bold">BLACK • VIOLET • LIME • WHITE</span>
+        </div>
+      </div>
+
+      <div className="w-full max-w-[1850px] mx-auto p-3 sm:p-5 lg:p-7 flex flex-col gap-6 flex-1">
         <TopBar />
 
-        <main className="rounded-[32px] bg-white/85 backdrop-blur-md border border-white/80 p-5 sm:p-6 shadow-2xl flex flex-col space-y-5 overflow-hidden">
+        <main className="rounded-2xl bg-white border-[2.5px] border-black shadow-[8px_8px_0px_#000000] p-5 sm:p-7 flex flex-col space-y-6 overflow-hidden">
           <FilterBar />
           <div className="w-full overflow-x-auto">
             <KanbanBoard />
@@ -44,7 +59,7 @@ export default function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme="dark"
       />
     </div>
   )

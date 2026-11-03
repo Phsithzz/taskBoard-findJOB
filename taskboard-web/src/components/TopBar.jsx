@@ -18,45 +18,45 @@ export const TopBar = () => {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -15 }}
+      initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="w-full bg-[#1E2026] text-white rounded-[28px] px-5 sm:px-7 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-xl border border-slate-800"
+      className="w-full bg-black text-white border-[2.5px] border-black shadow-[6px_6px_0px_#000000] rounded-2xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-4"
     >
       <div className="flex items-center gap-3.5">
         <div className="relative group shrink-0">
           <img
-            src="/profile.jpg"
+            src="/photo_v2.jpg"
             alt="Profile"
             onError={(e) => {
               e.target.style.display = 'none'
               e.target.nextSibling.style.display = 'flex'
             }}
-            className="w-11 h-11 rounded-full object-cover ring-2 ring-emerald-500/50 shadow-md"
+            className="w-12 h-12 rounded-xl object-cover border-2 border-[#C6FF33] shadow-[2px_2px_0px_#C6FF33]"
           />
-          <div className="hidden w-11 h-11 rounded-full bg-gradient-to-tr from-indigo-500 to-emerald-400 text-white font-bold text-sm items-center justify-center ring-2 ring-emerald-500">
+          <div className="hidden w-12 h-12 rounded-xl bg-[#7D39EB] text-[#C6FF33] font-black text-lg items-center justify-center border-2 border-[#C6FF33]">
             P
           </div>
-          <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-[#1E2026]"></span>
+          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#C6FF33] border-2 border-black"></span>
         </div>
 
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-base font-extrabold text-white tracking-tight">
-              Hi, Phoosith!
+            <h1 className="text-base font-black tracking-wider uppercase text-white font-mono">
+              JOBHUNT // PHOOSITH
             </h1>
-            <span className="rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold">
-              JobHunt 2026
+            <span className="rounded-md bg-[#C6FF33] text-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
+              ONLINE
             </span>
           </div>
-          <p className="text-xs text-slate-400 hidden sm:block">
-            Your dream job is waiting for you!
+          <p className="text-[11px] text-slate-300 font-mono hidden sm:block">
+            BUILT FOR DEVELOPERS. TRACKING CAREER SUCCESS.
           </p>
         </div>
       </div>
 
-      <div className="hidden md:flex items-center gap-5 bg-white/5 rounded-2xl px-5 py-2 border border-white/5">
-        <div className="flex items-center gap-2.5 pr-4 border-r border-white/10">
+      <div className="hidden md:flex items-center gap-4 bg-white/10 rounded-xl px-4 py-2 border border-white/20">
+        <div className="flex items-center gap-2.5 pr-4 border-r border-white/20">
           <div className="relative flex items-center justify-center">
             <svg className="w-9 h-9 transform -rotate-90">
               <circle
@@ -65,7 +65,7 @@ export const TopBar = () => {
                 r="14"
                 stroke="currentColor"
                 strokeWidth="3.5"
-                className="text-slate-700"
+                className="text-slate-800"
                 fill="transparent"
               />
               <circle
@@ -76,41 +76,41 @@ export const TopBar = () => {
                 strokeWidth="3.5"
                 strokeDasharray={88}
                 strokeDashoffset={88 - (88 * (activeProgressRate || 10)) / 100}
-                strokeLinecap="round"
-                className="text-emerald-400 transition-all duration-500"
+                strokeLinecap="square"
+                className="text-[#C6FF33] transition-all duration-500"
                 fill="transparent"
               />
             </svg>
-            <span className="absolute text-[10px] font-black text-white">
+            <span className="absolute text-[10px] font-black text-[#C6FF33] font-mono">
               {activeProgressRate}%
             </span>
           </div>
-          <div className="text-left">
-            <span className="text-[10px] text-slate-400 block font-medium">Response Rate</span>
-            <span className="text-xs font-bold text-emerald-400">Progress</span>
+          <div className="text-left font-mono">
+            <span className="text-[9px] text-slate-300 uppercase tracking-wider block font-bold">Offer Rate</span>
+            <span className="text-xs font-black text-[#C6FF33]">SUCCESS</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-xs">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-            <span className="text-slate-400 text-[11px]">Bookmarked:</span>
-            <strong className="text-white font-bold">{bookmarkedCount}</strong>
+        <div className="flex items-center gap-3 text-xs font-mono">
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-white/10">
+            <span className="w-2 h-2 rounded-full bg-[#FFF080]"></span>
+            <span className="text-slate-300 text-[10px] uppercase font-bold">Saved:</span>
+            <strong className="text-white font-black">{bookmarkedCount}</strong>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-sky-400"></span>
-            <span className="text-slate-400 text-[11px]">Applied:</span>
-            <strong className="text-white font-bold">{appliedCount}</strong>
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-white/10">
+            <span className="w-2 h-2 rounded-full bg-white"></span>
+            <span className="text-slate-300 text-[10px] uppercase font-bold">Applied:</span>
+            <strong className="text-white font-black">{appliedCount}</strong>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-            <span className="text-slate-400 text-[11px]">Interview:</span>
-            <strong className="text-white font-bold">{interviewCount}</strong>
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-white/10">
+            <span className="w-2 h-2 rounded-full bg-[#D7BAFF]"></span>
+            <span className="text-slate-300 text-[10px] uppercase font-bold">Interview:</span>
+            <strong className="text-[#D7BAFF] font-black">{interviewCount}</strong>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span className="text-slate-400 text-[11px]">Offers:</span>
-            <strong className="text-emerald-400 font-black">{acceptedCount}</strong>
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-[#C6FF33]/40">
+            <span className="w-2 h-2 rounded-full bg-[#C6FF33]"></span>
+            <span className="text-slate-300 text-[10px] uppercase font-bold">Offers:</span>
+            <strong className="text-[#C6FF33] font-black">{acceptedCount}</strong>
           </div>
         </div>
       </div>
@@ -119,10 +119,11 @@ export const TopBar = () => {
         <button
           type="button"
           onClick={() => openCreateModal('applied')}
-          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 px-5 py-2.5 text-xs font-extrabold text-slate-900 shadow-md shadow-emerald-500/20 active:scale-95 transition cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#C6FF33] text-black font-black text-xs uppercase px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_#000000] hover:bg-[#bbf426] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
         >
           <span className="text-sm font-black">+</span>
-          <span>New Application</span>
+          <span>Add Application</span>
+          <span className="font-mono">→</span>
         </button>
       </div>
     </motion.header>
