@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ClipLoader } from 'react-spinners'
+import { toast } from 'react-toastify'
 import { FiBriefcase, FiMapPin, FiUser, FiLink, FiArrowRight } from 'react-icons/fi'
 import { useJobStore } from '../stores/useJobStore'
 import { STATUS_CONFIG, getPlatformLogo } from '../constants/statusConfig'
@@ -33,7 +34,7 @@ export const JobModal = () => {
   const [isAddingCustomPlatform, setIsAddingCustomPlatform] = useState(false)
   const [customPlatformInput, setCustomPlatformInput] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [validationError, setValidationError] = useState('')
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     if (!isModalOpen) return
@@ -78,7 +79,7 @@ export const JobModal = () => {
     }
     setIsAddingCustomPlatform(false)
     setCustomPlatformInput('')
-    setValidationError('')
+    setErrors({})
   }, [editingJob, isModalOpen, platforms])
 
   const handleCustomPlatformAdd = (e) => {
@@ -93,17 +94,27 @@ export const JobModal = () => {
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault()
+    const newErrors = {}
     if (!form.title.trim()) {
-      setValidationError('กรุณาระบุตำแหน่งงาน (Job Title)')
-      return
+      newErrors.title = 'กรุณาระบุตำแหน่งงาน (Job Title)'
     }
     if (!form.company.trim()) {
-      setValidationError('กรุณาระบุชื่อบริษัท (Company Name)')
+      newErrors.company = 'กรุณาระบุชื่อบริษัท (Company Name)'
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      const errorMsg = newErrors.title || newErrors.company
+      toast.error(errorMsg, {
+        position: 'bottom-right',
+        autoClose: 3500,
+        theme: 'dark',
+      })
       return
     }
 
     setSubmitting(true)
-    setValidationError('')
+    setErrors({})
 
     if (editingJob) {
       await updateJob(editingJob.id, form)
@@ -168,13 +179,6 @@ export const JobModal = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="flex-1 flex flex-col p-5 sm:p-6 overflow-y-auto font-sans">
-              {validationError && (
-                <div className="mb-4 rounded-xl bg-rose-100 border-2 border-black p-3 text-xs font-bold text-black flex items-center gap-2 shadow-[3px_3px_0px_#000]">
-                  <span>⚠️</span>
-                  <span>{validationError}</span>
-                </div>
-              )}
-
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start flex-1">
                 <div className="lg:col-span-7 flex flex-col h-full space-y-3.5">
                   <h1 className="text-xl font-black text-black tracking-tight uppercase font-mono">
@@ -190,9 +194,22 @@ export const JobModal = () => {
                       required
                       placeholder="e.g. Senior Frontend Developer"
                       value={form.title}
-                      onChange={(e) => setForm({ ...form, title: e.target.value })}
-                      className="w-full rounded-lg border-2 border-black px-3.5 py-2 text-xs font-bold text-black focus:ring-2 focus:ring-[#7D39EB] outline-none shadow-[2px_2px_0px_#000]"
+                      onChange={(e) => {
+                        setForm({ ...form, title: e.target.value })
+                        if (errors.title) setErrors((prev) => ({ ...prev, title: '' }))
+                      }}
+                      className={`w-full rounded-lg border-2 px-3.5 py-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] transition ${
+                        errors.title
+                          ? 'border-rose-500 bg-rose-50/50 ring-2 ring-rose-400'
+                          : 'border-black focus:ring-2 focus:ring-[#7D39EB]'
+                      }`}
                     />
+                    {errors.title && (
+                      <p className="mt-1 text-[11px] font-bold text-rose-600 flex items-center gap-1 font-mono">
+                        <span>⚠️</span>
+                        <span>{errors.title}</span>
+                      </p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -403,10 +420,23 @@ export const JobModal = () => {
                           required
                           placeholder="e.g. Agoda, SCB TechX"
                           value={form.company}
-                          onChange={(e) => setForm({ ...form, company: e.target.value })}
-                          className="flex-1 rounded-lg border-2 border-black bg-white px-3 py-1.5 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
+                          onChange={(e) => {
+                            setForm({ ...form, company: e.target.value })
+                            if (errors.company) setErrors((prev) => ({ ...prev, company: '' }))
+                          }}
+                          className={`flex-1 rounded-lg border-2 bg-white px-3 py-1.5 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] transition ${
+                            errors.company
+                              ? 'border-rose-500 bg-rose-50/50 ring-2 ring-rose-400'
+                              : 'border-black focus:ring-2 focus:ring-[#7D39EB]'
+                          }`}
                         />
                       </div>
+                      {errors.company && (
+                        <p className="mt-1 text-[11px] font-bold text-rose-600 flex items-center gap-1 font-mono">
+                          <span>⚠️</span>
+                          <span>{errors.company}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div>
