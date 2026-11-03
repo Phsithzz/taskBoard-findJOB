@@ -7,25 +7,38 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	"taskboard-api/config"
 	"taskboard-api/handlers"
-	"taskboard-api/store"
+	"taskboard-api/repository"
+	"taskboard-api/service"
 )
 
 func main() {
+	// 1. Initialize MongoDB Database
+	db := config.InitDB()
 
-	store.Connect()
+	// 2. Initialize Clean Architecture Layers (Repo -> Service -> Handler)
+	jobRepo := repository.NewMongoJobRepository(db)
+	jobService := service.NewJobService(jobRepo)
+	jobHandler := handlers.NewJobHandler(jobService)
 
+	// 3. Gin Engine Setup
 	router := gin.Default()
 	router.Use(cors.Default())
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Taskboard API is alive"})
+		c.JSON(http.StatusOK, gin.H{"message": "JobHunt Tracker API is running"})
 	})
 
-	router.GET("/tasks", handlers.GetTasks)
-	router.POST("/tasks", handlers.CreateTasks)
-	router.PUT("/tasks/:id", handlers.UpdateTask)
-	router.DELETE("/tasks/:id", handlers.DeleteTask)
+	// 4. Register Routes
+	tasks := router.Group("/tasks")
+	{
+		tasks.GET("", jobHandler.GetJobs)
+		tasks.POST("", jobHandler.CreateJob)
+		tasks.PUT("/:id", jobHandler.UpdateJob)
+		tasks.DELETE("/:id", jobHandler.DeleteJob)
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
