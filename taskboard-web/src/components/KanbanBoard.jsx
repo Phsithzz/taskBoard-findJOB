@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
+import { RingLoader } from 'react-spinners'
 import { useJobStore } from '../stores/useJobStore'
-import { STATUS_CONFIG } from '../constants/statusConfig'
 import { KanbanColumn } from './KanbanColumn'
 
 const COLUMN_KEYS = ['bookmarked', 'applied', 'interviewing', 'accepted', 'rejected']
@@ -86,12 +86,11 @@ export const KanbanBoard = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-slate-400">
-        <svg className="w-8 h-8 animate-spin text-indigo-600 mb-3" viewBox="0 0 24 24" fill="none">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-        </svg>
-        <p className="text-sm font-medium">กำลังโหลดข้อมูลการสมัครงาน...</p>
+      <div className="flex flex-col items-center justify-center py-28 text-slate-500">
+        <RingLoader color="#10b981" size={56} />
+        <p className="text-xs font-bold text-slate-600 mt-4 tracking-wide uppercase">
+          กำลังโหลดข้อมูลการสมัครงาน...
+        </p>
       </div>
     )
   }
@@ -99,14 +98,14 @@ export const KanbanBoard = () => {
   return (
     <div className="space-y-4">
       {error && (
-        <div className="flex items-center justify-between rounded-xl bg-rose-50 border border-rose-200 p-4 text-rose-800 text-sm">
+        <div className="flex items-center justify-between rounded-2xl bg-rose-50 border border-rose-200 p-4 text-rose-800 text-sm shadow-xs">
           <div className="flex items-center gap-2">
             <span>⚠️</span>
             <span>{error}</span>
           </div>
           <button
             onClick={() => fetchJobs()}
-            className="text-xs font-semibold text-rose-700 underline hover:no-underline cursor-pointer"
+            className="text-xs font-bold text-rose-700 underline hover:no-underline cursor-pointer"
           >
             ลองใหม่อีกครั้ง
           </button>

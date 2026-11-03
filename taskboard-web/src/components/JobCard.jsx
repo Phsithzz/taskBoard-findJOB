@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { motion } from 'framer-motion'
 import { useJobStore } from '../stores/useJobStore'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 import { StatusDropdown } from './StatusDropdown'
@@ -18,10 +19,16 @@ export const JobCard = ({ job, onDragStart }) => {
   const companyInitial = (job.company || 'J').charAt(0).toUpperCase()
 
   return (
-    <div
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      whileHover={{ y: -3, transition: { duration: 0.15 } }}
+      whileTap={{ scale: 0.98 }}
       draggable
       onDragStart={(e) => onDragStart(e, job.id)}
-      className="group relative rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm hover:shadow-md transition-all duration-150 cursor-grab active:cursor-grabbing hover:border-slate-300"
+      className="group relative rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing hover:border-slate-300"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2.5">
@@ -163,6 +170,6 @@ export const JobCard = ({ job, onDragStart }) => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

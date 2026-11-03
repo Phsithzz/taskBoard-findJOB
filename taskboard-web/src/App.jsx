@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { useJobStore } from './stores/useJobStore'
 import { Sidebar } from './components/Sidebar'
 import { FilterBar } from './components/FilterBar'
@@ -32,6 +34,18 @@ export default function App() {
       </div>
 
       <JobModal />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   )
 }

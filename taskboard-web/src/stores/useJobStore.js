@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import confetti from 'canvas-confetti'
 import { jobApi } from '../services/api'
 import { DEFAULT_PLATFORMS } from '../constants/statusConfig'
 
@@ -34,10 +36,9 @@ export const useJobStore = create((set, get) => ({
       set({ jobs: res.data || [], loading: false })
     } catch (err) {
       if (axios.isCancel(err)) return
-      set({
-        error: err.response?.data?.error || err.message || 'ไม่สามารถโหลดข้อมูลการสมัครงานได้',
-        loading: false,
-      })
+      const msg = err.response?.data?.error || err.message || 'ไม่สามารถโหลดข้อมูลการสมัครงานได้'
+      set({ error: msg, loading: false })
+      toast.error(msg)
     }
   },
 
@@ -46,9 +47,12 @@ export const useJobStore = create((set, get) => ({
       set({ error: null })
       const res = await jobApi.create(formData)
       set((state) => ({ jobs: [res.data, ...state.jobs], isModalOpen: false }))
+      toast.success(`🎉 บันทึกการสมัครงาน "${formData.title}" เรียบร้อย!`)
       return true
     } catch (err) {
-      set({ error: err.response?.data?.error || err.message || 'บันทึกข้อมูลไม่สำเร็จ' })
+      const msg = err.response?.data?.error || err.message || 'บันทึกข้อมูลไม่สำเร็จ'
+      set({ error: msg })
+      toast.error(msg)
       return false
     }
   },
@@ -62,9 +66,12 @@ export const useJobStore = create((set, get) => ({
         isModalOpen: false,
         editingJob: null,
       }))
+      toast.success('✨ อัปเดตข้อมูลการสมัครงานเรียบร้อย!')
       return true
     } catch (err) {
-      set({ error: err.response?.data?.error || err.message || 'บันทึกข้อมูลไม่สำเร็จ' })
+      const msg = err.response?.data?.error || err.message || 'บันทึกข้อมูลไม่สำเร็จ'
+      set({ error: msg })
+      toast.error(msg)
       return false
     }
   },
@@ -79,8 +86,22 @@ export const useJobStore = create((set, get) => ({
       set((state) => ({
         jobs: state.jobs.map((j) => (j.id === job.id ? { ...j, ...res.data } : j)),
       }))
+
+      if (newStatus === 'accepted') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#50bfa0', '#34d399', '#6ee7b7', '#10b981', '#fbbf24'],
+        })
+        toast.success(`🏆 ยินดีด้วย! คุณผ่านการคัดเลือกที่ "${job.company}" แล้ว!`)
+      } else {
+        toast.info(`📋 ย้ายไปยังสถานะ "${newStatus.toUpperCase()}"`)
+      }
     } catch (err) {
-      set({ error: err.response?.data?.error || err.message || 'เปลี่ยนสถานะไม่สำเร็จ' })
+      const msg = err.response?.data?.error || err.message || 'เปลี่ยนสถานะไม่สำเร็จ'
+      set({ error: msg })
+      toast.error(msg)
     }
   },
 
@@ -91,8 +112,11 @@ export const useJobStore = create((set, get) => ({
       set((state) => ({
         jobs: state.jobs.map((j) => (j.id === job.id ? { ...j, ...res.data } : j)),
       }))
+      if (updated.starred) {
+        toast.info(`⭐ ติดดาว "${job.company}" ในรายการสำคัญแล้ว`)
+      }
     } catch {
-      set({ error: 'ไม่สามารถอัปเดตสถานะดาวได้' })
+      toast.error('ไม่สามารถอัปเดตสถานะดาวได้')
     }
   },
 
@@ -101,8 +125,11 @@ export const useJobStore = create((set, get) => ({
     try {
       await jobApi.delete(jobId)
       set((state) => ({ jobs: state.jobs.filter((j) => j.id !== jobId) }))
+      toast.warn(`🗑️ ลบข้อมูลการสมัครงานที่ "${companyName}" เรียบร้อย`)
     } catch (err) {
-      set({ error: err.response?.data?.error || err.message || 'ลบข้อมูลไม่สำเร็จ' })
+      const msg = err.response?.data?.error || err.message || 'ลบข้อมูลไม่สำเร็จ'
+      set({ error: msg })
+      toast.error(msg)
     }
   },
 
@@ -114,6 +141,7 @@ export const useJobStore = create((set, get) => ({
       const updated = [...platforms, trimmed]
       set({ platforms: updated })
       localStorage.setItem('taskboard_platforms', JSON.stringify(updated))
+      toast.success(`เพิ่มแพลตฟอร์ม "${trimmed}" เรียบร้อย`)
     }
   },
 

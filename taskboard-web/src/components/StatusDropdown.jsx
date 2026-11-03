@@ -1,12 +1,17 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 
 export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
   return (
-    <div
+    <motion.div
       ref={dropdownRef}
+      initial={{ opacity: 0, scale: 0.92, y: -6 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.92, y: -6 }}
+      transition={{ duration: 0.12 }}
       onClick={(e) => e.stopPropagation()}
-      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-[28px] border border-slate-100 bg-white p-4 shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-[28px] border border-slate-100 bg-white p-4 shadow-2xl"
     >
       <h3 className="text-lg font-bold text-slate-800 mb-3 px-2 tracking-tight">
         Status
@@ -36,6 +41,6 @@ export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
           )
         })}
       </div>
-    </div>
+    </motion.div>
   )
 }
