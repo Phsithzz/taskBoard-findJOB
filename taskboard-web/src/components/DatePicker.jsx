@@ -9,7 +9,7 @@ const MONTH_NAMES = [
 
 const DAYS_HEADER = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ปปปป', popDirection = 'auto' }) => {
+export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ปปปป' }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [direction, setDirection] = useState('down')
   const containerRef = useRef(null)
@@ -45,19 +45,27 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
 
   useEffect(() => {
     if (isOpen && containerRef.current) {
-      if (popDirection === 'up' || popDirection === 'down') {
-        setDirection(popDirection)
+      const formEl = containerRef.current.closest('form')
+      if (formEl) {
+        const containerRect = containerRef.current.getBoundingClientRect()
+        const formRect = formEl.getBoundingClientRect()
+        const spaceBelowInsideForm = formRect.bottom - containerRect.bottom
+        const spaceAboveInsideForm = containerRect.top - formRect.top
+
+        if (spaceBelowInsideForm >= 265) {
+          setDirection('down')
+        } else if (spaceAboveInsideForm >= 265) {
+          setDirection('up')
+        } else {
+          setDirection(spaceBelowInsideForm >= spaceAboveInsideForm ? 'down' : 'up')
+        }
       } else {
         const rect = containerRef.current.getBoundingClientRect()
         const spaceBelow = window.innerHeight - rect.bottom
-        if (spaceBelow < 340 && rect.top > 300) {
-          setDirection('up')
-        } else {
-          setDirection('down')
-        }
+        setDirection(spaceBelow < 270 && rect.top > 270 ? 'up' : 'down')
       }
     }
-  }, [isOpen, popDirection])
+  }, [isOpen])
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -176,17 +184,17 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
             exit={{ opacity: 0, scale: 0.95, y: direction === 'up' ? -6 : 6 }}
             transition={{ duration: 0.12 }}
             onClick={(e) => e.stopPropagation()}
-            className={`absolute left-0 z-50 w-72 rounded-2xl border-[2.5px] border-black bg-white p-4 shadow-[6px_6px_0px_#000000] font-sans ${
-              direction === 'up' ? 'bottom-full mb-2 origin-bottom' : 'top-full mt-2 origin-top'
+            className={`absolute left-0 z-50 w-68 rounded-2xl border-[2.5px] border-black bg-white p-3 shadow-[6px_6px_0px_#000000] font-sans ${
+              direction === 'up' ? 'bottom-full mb-1.5 origin-bottom' : 'top-full mt-1.5 origin-top'
             }`}
           >
-            <div className="flex items-center justify-between mb-3 pb-2 border-b-2 border-black">
+            <div className="flex items-center justify-between mb-2 pb-1.5 border-b-2 border-black">
               <button
                 type="button"
                 onClick={prevMonth}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border-2 border-black bg-white hover:bg-slate-100 transition cursor-pointer shadow-[1px_1px_0px_#000]"
+                className="flex h-6.5 w-6.5 items-center justify-center rounded-lg border-2 border-black bg-white hover:bg-slate-100 transition cursor-pointer shadow-[1px_1px_0px_#000]"
               >
-                <FiChevronLeft className="w-4 h-4" />
+                <FiChevronLeft className="w-3.5 h-3.5" />
               </button>
 
               <span className="font-mono font-black text-xs uppercase tracking-wider text-black">
@@ -196,13 +204,13 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
               <button
                 type="button"
                 onClick={nextMonth}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border-2 border-black bg-white hover:bg-slate-100 transition cursor-pointer shadow-[1px_1px_0px_#000]"
+                className="flex h-6.5 w-6.5 items-center justify-center rounded-lg border-2 border-black bg-white hover:bg-slate-100 transition cursor-pointer shadow-[1px_1px_0px_#000]"
               >
-                <FiChevronRight className="w-4 h-4" />
+                <FiChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center font-mono font-black text-[10px] text-slate-500 mb-1.5 uppercase">
+            <div className="grid grid-cols-7 gap-1 text-center font-mono font-black text-[9.5px] text-slate-500 mb-1 uppercase">
               {DAYS_HEADER.map((d) => (
                 <span key={d}>{d}</span>
               ))}
@@ -218,7 +226,7 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
                     type="button"
                     key={idx}
                     onClick={() => handleSelectDay(dObj)}
-                    className={`h-7 w-7 mx-auto flex items-center justify-center rounded-lg font-bold transition-all cursor-pointer ${
+                    className={`h-6.5 w-6.5 mx-auto flex items-center justify-center rounded-lg font-bold transition-all cursor-pointer text-[11px] ${
                       isSelected
                         ? 'bg-[#C6FF33] text-black border-2 border-black font-black shadow-[1.5px_1.5px_0px_#000]'
                         : dObj.isCurrentMonth
@@ -232,18 +240,18 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
               })}
             </div>
 
-            <div className="flex items-center justify-between gap-2 mt-4 pt-3 border-t-2 border-black font-mono">
+            <div className="flex items-center justify-between gap-2 mt-2.5 pt-2 border-t-2 border-black font-mono">
               <button
                 type="button"
                 onClick={handleCancel}
-                className="flex-1 py-1.5 rounded-lg border-2 border-black bg-white text-xs font-black uppercase hover:bg-slate-100 transition cursor-pointer"
+                className="flex-1 py-1 rounded-lg border-2 border-black bg-white text-xs font-black uppercase hover:bg-slate-100 transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleConfirm}
-                className="flex-1 py-1.5 rounded-lg border-2 border-black bg-[#C6FF33] text-black text-xs font-black uppercase shadow-[2px_2px_0px_#000] hover:bg-[#bbf426] transition cursor-pointer"
+                className="flex-1 py-1 rounded-lg border-2 border-black bg-[#C6FF33] text-black text-xs font-black uppercase shadow-[2px_2px_0px_#000] hover:bg-[#bbf426] transition cursor-pointer"
               >
                 OK
               </button>

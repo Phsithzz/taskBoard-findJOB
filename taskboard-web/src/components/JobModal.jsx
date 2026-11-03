@@ -121,14 +121,14 @@ export const JobModal = () => {
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/75 backdrop-blur-xs overflow-y-auto cursor-pointer"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 12 }}
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 12 }}
+            exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ duration: 0.15 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-[95vw] max-w-6xl xl:max-w-7xl rounded-2xl bg-white border-[3px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden my-auto cursor-default font-sans"
+            className="w-[95vw] max-w-6xl xl:max-w-7xl h-[88vh] max-h-[920px] flex flex-col rounded-2xl bg-white border-[3px] border-black shadow-[12px_12px_0px_#000000] overflow-hidden my-auto cursor-default font-sans"
           >
-            <div className="flex items-center justify-between px-5 py-3 border-b-[2.5px] border-black bg-black text-white font-mono">
+            <div className="flex-none flex items-center justify-between px-5 py-3 border-b-[2.5px] border-black bg-black text-white font-mono">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-[#FF8080] border border-black inline-block"></span>
@@ -167,7 +167,7 @@ export const JobModal = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-4 sm:p-5 max-h-[86vh] overflow-y-auto font-sans">
+            <form onSubmit={handleSubmit} className="flex-1 flex flex-col p-5 sm:p-6 overflow-y-auto font-sans">
               {validationError && (
                 <div className="mb-4 rounded-xl bg-rose-100 border-2 border-black p-3 text-xs font-bold text-black flex items-center gap-2 shadow-[3px_3px_0px_#000]">
                   <span>⚠️</span>
@@ -175,8 +175,8 @@ export const JobModal = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-                <div className="lg:col-span-7 space-y-3.5">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start flex-1">
+                <div className="lg:col-span-7 flex flex-col h-full space-y-3.5">
                   <h1 className="text-xl font-black text-black tracking-tight uppercase font-mono">
                     {editingJob ? 'EDIT APPLICATION' : 'CREATE JOB RECORD'}
                   </h1>
@@ -191,7 +191,7 @@ export const JobModal = () => {
                       placeholder="e.g. Senior Frontend Developer"
                       value={form.title}
                       onChange={(e) => setForm({ ...form, title: e.target.value })}
-                      className="w-full rounded-lg border-2 border-black px-3 py-2 text-xs font-bold text-black focus:ring-2 focus:ring-[#7D39EB] outline-none shadow-[2px_2px_0px_#000]"
+                      className="w-full rounded-lg border-2 border-black px-3.5 py-2 text-xs font-bold text-black focus:ring-2 focus:ring-[#7D39EB] outline-none shadow-[2px_2px_0px_#000]"
                     />
                   </div>
 
@@ -263,7 +263,7 @@ export const JobModal = () => {
                       <label className="block text-xs font-black text-black uppercase tracking-wider mb-1.5 font-mono">
                         Work Arrangement
                       </label>
-                      <div className="flex flex-wrap items-center gap-4 text-xs text-black font-bold pt-0.5">
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-black font-bold pt-1">
                         {['Remote', 'Hybrid', 'Onsite'].map((type) => {
                           const isSelected = form.work_type === type
                           return (
@@ -329,7 +329,6 @@ export const JobModal = () => {
                         value={form.due}
                         onChange={(val) => setForm({ ...form, due: val })}
                         placeholder="วว/ดด/ปปปป"
-                        popDirection="up"
                       />
                     </div>
 
@@ -347,22 +346,22 @@ export const JobModal = () => {
                             placeholder="e.g. 35k - 55k"
                             value={form.salary}
                             onChange={(e) => setForm({ ...form, salary: e.target.value })}
-                            className="w-full rounded-lg border-2 border-black py-1.5 pl-11 pr-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] font-mono"
+                            className="w-full rounded-lg border-2 border-black py-2 pl-11 pr-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] font-mono"
                           />
                         </div>
-                        <span className="text-[11px] font-black text-black rounded-lg bg-black text-white px-2.5 py-1.5 border-2 border-black font-mono">
+                        <span className="text-[11px] font-black text-black rounded-lg bg-black text-white px-2.5 py-2 border-2 border-black font-mono">
                           /MO
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div>
+                  <div className="flex-1 flex flex-col min-h-[140px]">
                     <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                       Description & Notes
                     </label>
-                    <div className="rounded-xl border-2 border-black overflow-hidden shadow-[2px_2px_0px_#000]">
-                      <div className="flex items-center gap-2 border-b-2 border-black bg-slate-100 px-3 py-1 text-xs font-black">
+                    <div className="flex-1 flex flex-col rounded-xl border-2 border-black overflow-hidden shadow-[2px_2px_0px_#000]">
+                      <div className="flex-none flex items-center gap-2 border-b-2 border-black bg-slate-100 px-3 py-1.5 text-xs font-black">
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer font-bold">B</span>
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer italic font-serif">I</span>
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer underline">U</span>
@@ -370,19 +369,19 @@ export const JobModal = () => {
                         <span className="text-[10px] text-slate-500 uppercase font-mono">Interview Prep / Notes</span>
                       </div>
                       <textarea
-                        rows={3}
+                        rows={4}
                         placeholder="รายละเอียดงาน, สิ่งที่ต้องเตรียมตัวตอบคำถามสัมภาษณ์, ข้อมูลโปรเจกต์..."
                         value={form.notes}
                         onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                        className="w-full p-2.5 text-xs font-medium text-black outline-none resize-none bg-white font-sans"
+                        className="flex-1 w-full p-3 text-xs font-medium text-black outline-none resize-none bg-white font-sans"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:col-span-5">
-                  <div className="rounded-xl border-2 border-black bg-slate-50 p-4 sm:p-5 space-y-3.5 shadow-[4px_4px_0px_#000000]">
-                    <div className="flex items-center justify-between border-b-2 border-black pb-2 font-mono">
+                <div className="lg:col-span-5 flex flex-col">
+                  <div className="rounded-xl border-2 border-black bg-slate-50 p-5 space-y-4 shadow-[4px_4px_0px_#000000]">
+                    <div className="flex items-center justify-between border-b-2 border-black pb-2.5 font-mono">
                       <h2 className="font-black text-black text-xs uppercase">
                         Employer Details
                       </h2>
