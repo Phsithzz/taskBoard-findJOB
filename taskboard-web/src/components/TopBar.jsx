@@ -27,7 +27,7 @@ export const TopBar = () => {
       <div className="flex items-center gap-3.5">
         <div className="relative group shrink-0">
           <img
-            src="/profile.jpg"
+            src="/photo_v2.jpg"
             alt="Profile"
             onError={(e) => {
               e.target.style.display = 'none'
