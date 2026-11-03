@@ -20,31 +20,30 @@ export const KanbanColumn = ({
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
-      className={`flex flex-col min-w-[260px] flex-1 shrink-0 rounded-[28px] border transition-all duration-150 ${
-        statusInfo.columnBorder
-      } border-t-4 ${
+      className={`flex flex-col min-w-[270px] flex-1 shrink-0 rounded-2xl border-[2.5px] border-black shadow-[5px_5px_0px_#000000] overflow-hidden transition-all duration-150 ${
         isDragOver
-          ? 'bg-emerald-50/70 border-dashed border-emerald-400 ring-2 ring-emerald-300'
-          : 'bg-slate-50/70 border-slate-200/80'
+          ? 'bg-[#C6FF33]/30 border-black ring-4 ring-[#7D39EB]'
+          : 'bg-[#F9F8F6]'
       }`}
     >
-      <div className="flex items-center justify-between p-4 border-b border-slate-200/60">
-        <div className="flex items-center gap-2.5">
-          <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full ${statusInfo.pillClass} shadow-xs`}>
-            {statusInfo.icon}
-          </span>
-          <div>
-            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
-              <span>{statusInfo.label}</span>
-              <span className="text-[11px] font-semibold text-slate-400">
-                ({statusInfo.thaiLabel})
-              </span>
-            </h2>
+      <div className={`flex items-center justify-between p-3.5 border-b-[2.5px] border-black ${statusInfo.headerBg}`}>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 opacity-60">
+            <span className="w-2 h-2 rounded-full border border-black bg-white inline-block"></span>
+            <span className="w-2 h-2 rounded-full border border-black bg-white inline-block"></span>
+            <span className="w-2 h-2 rounded-full border border-black bg-black inline-block"></span>
           </div>
+
+          <h2 className="font-mono font-black text-xs uppercase tracking-wider flex items-center gap-1.5 ml-1">
+            <span>{statusInfo.label}</span>
+            <span className="text-[10px] font-bold opacity-75">
+              ({statusInfo.thaiLabel})
+            </span>
+          </h2>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          <span className={`rounded-full px-2.5 py-0.5 text-xs font-black border ${statusInfo.badgeClass}`}>
+        <div className="flex items-center gap-2">
+          <span className="rounded-md px-2 py-0.5 text-xs font-mono font-black border-2 border-black bg-black text-[#C6FF33] shadow-[1px_1px_0px_#000]">
             {jobs.length}
           </span>
 
@@ -52,25 +51,23 @@ export const KanbanColumn = ({
             type="button"
             title={`เพิ่มงานในสถานะ ${statusInfo.label}`}
             onClick={() => openCreateModal(statusKey)}
-            className="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 hover:text-slate-900 hover:bg-white transition cursor-pointer"
+            className="flex h-6 w-6 items-center justify-center rounded-md bg-white text-black border-2 border-black font-black shadow-[1.5px_1.5px_0px_#000] hover:bg-[#C6FF33] transition cursor-pointer active:translate-x-[1px] active:translate-y-[1px]"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-            </svg>
+            +
           </button>
         </div>
       </div>
 
       <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto max-h-[calc(100vh-270px)] min-h-[220px]">
         {jobs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-36 rounded-2xl border border-dashed border-slate-300/80 text-center p-4 text-xs text-slate-400">
-            <span>ยังไม่มีรายการในสถานะนี้</span>
+          <div className="flex flex-col items-center justify-center h-36 rounded-xl border-2 border-dashed border-slate-300 text-center p-4 text-xs font-mono text-slate-500">
+            <span className="font-bold">NO JOBS IN THIS QUEUE</span>
             <button
               type="button"
               onClick={() => openCreateModal(statusKey)}
-              className="mt-2 text-emerald-600 font-bold hover:underline cursor-pointer"
+              className="mt-2 text-black font-black underline hover:text-[#7D39EB] cursor-pointer uppercase"
             >
-              + เพิ่มงานใหม่
+              + ADD APPLICATION
             </button>
           </div>
         ) : (

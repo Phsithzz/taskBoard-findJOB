@@ -11,13 +11,19 @@ export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
       exit={{ opacity: 0, scale: 0.92, y: -6 }}
       transition={{ duration: 0.12 }}
       onClick={(e) => e.stopPropagation()}
-      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-[28px] border border-slate-100 bg-white p-4 shadow-2xl"
+      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-xl border-[2.5px] border-black bg-white p-3.5 shadow-[6px_6px_0px_#000000]"
     >
-      <h3 className="text-lg font-bold text-slate-800 mb-3 px-2 tracking-tight">
-        Status
-      </h3>
+      <div className="flex items-center justify-between pb-2 mb-2 border-b-2 border-black font-mono">
+        <h3 className="text-xs font-black uppercase tracking-wider text-black">
+          SELECT STATUS
+        </h3>
+        <div className="flex items-center gap-1">
+          <span className="w-2 h-2 rounded-full border border-black bg-black"></span>
+          <span className="w-2 h-2 rounded-full border border-black bg-[#C6FF33]"></span>
+        </div>
+      </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-2">
         {Object.values(STATUS_CONFIG).map((s) => {
           const isSelected = (job.status || '').toLowerCase() === s.id
           return (
@@ -25,18 +31,16 @@ export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
               key={s.id}
               type="button"
               onClick={() => onSelectStatus(job, s.id)}
-              className={`flex w-full items-center justify-between px-4 py-2.5 rounded-2xl font-semibold text-xs transition-all duration-150 cursor-pointer shadow-xs ${
+              className={`flex w-full items-center justify-between px-3 py-2 rounded-lg font-mono font-bold text-xs uppercase transition-all duration-100 cursor-pointer ${
                 s.pillClass
-              } ${isSelected ? 'ring-2 ring-slate-800 ring-offset-1 scale-[1.02]' : 'hover:scale-[1.01]'}`}
+              } ${isSelected ? 'ring-2 ring-black scale-[1.02]' : 'hover:scale-[1.01]'}`}
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <span className="shrink-0">{s.icon}</span>
                 <span className="tracking-tight">{s.label}</span>
               </div>
 
-              <svg className="w-3.5 h-3.5 opacity-70 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-              </svg>
+              <span className="font-mono font-black text-xs">→</span>
             </button>
           )
         })}
