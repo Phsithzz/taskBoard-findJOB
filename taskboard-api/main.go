@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,25 @@ func main() {
 	jobHandler := handlers.NewJobHandler(jobService)
 
 	router := gin.Default()
-	router.Use(cors.Default())
+
+	allowedOrigins := []string{
+		"https://task-board-find-job.vercel.app",
+		"http://localhost:5173",
+		"http://localhost:3000",
+	}
+	if envOrigin := os.Getenv("FRONTEND_URL"); envOrigin != "" {
+		allowedOrigins = append(allowedOrigins, envOrigin)
+	}
+
+	corsConfig := cors.Config{
+		AllowOrigins:     allowedOrigins,
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Accept", "Authorization", "X-Requested-With"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}
+	router.Use(cors.New(corsConfig))
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "JobHunt Tracker API is running"})
