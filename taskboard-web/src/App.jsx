@@ -8,8 +8,14 @@ const App = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // State สำหรับฟอร์มเพิ่มงานใหม่
+  const [title, setTitle] = useState('')
+  const [desc, setDesc] = useState('')
+  const [due, setDue] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // ดึงรายการงานตอนโหลดหน้าเว็บ
   useEffect(() => {
- 
     const controller = new AbortController()
 
     const fetchTasks = async () => {
@@ -21,7 +27,6 @@ const App = () => {
         })
         setTasks(response.data)
       } catch (err) {
-      
         if (axios.isCancel(err)) return
         setError(err.response?.data?.error || err.message || 'Failed to fetch tasks')
       } finally {
@@ -31,16 +36,48 @@ const App = () => {
 
     fetchTasks()
 
-
     return () => {
       controller.abort()
     }
   }, [apiUrl])
 
+  // ฟังก์ชันเพิ่มงานใหม่
+  const addTask = async (e) => {
+    e.preventDefault()
+
+    if (!title.trim()) {
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+      setError(null)
+
+      // ส่งข้อมูลเป็น Object ตามโครงสร้างที่ Go Backend ต้องการ
+      const response = await axios.post(`${apiUrl}/tasks`, {
+        title: title.trim(),
+        desc: desc.trim(),
+        due: due.trim(),
+      })
+
+      // อัปเดต Task ใหม่เข้าไปใน state ทันที โดยไม่ต้อง fetch ใหม่ทั้งก้อน
+      setTasks((prev) => [response.data, ...prev])
+
+      // เคลียร์ฟอร์ม
+      setTitle('')
+      setDesc('')
+      setDue('')
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Failed to add task')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-      
+        {/* Header */}
         <header className="mb-8 flex items-center justify-between border-b border-slate-200 pb-5">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900">TaskBoard</h1>
@@ -51,7 +88,60 @@ const App = () => {
           </span>
         </header>
 
-      
+        {/* ฟอร์มสร้าง Task ใหม่ */}
+        <form onSubmit={addTask} className="mb-8 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="text-sm font-semibold text-slate-800 mb-3">เพิ่มงานใหม่</h2>
+          <div className="grid gap-3 sm:grid-cols-12">
+            <div className="sm:col-span-5">
+              <input
+                type="text"
+                placeholder="ชื่องาน * (เช่น ออกแบบหน้าเว็บ)"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            <div className="sm:col-span-4">
+              <input
+                type="text"
+                placeholder="รายละเอียดงาน"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            <div className="sm:col-span-3">
+              <input
+                type="text"
+                placeholder="กำหนดส่ง (เช่น 10 Nov)"
+                value={due}
+                onChange={(e) => setDue(e.target.value)}
+                className="w-full rounded-lg border border-slate-300 px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div className="mt-3 flex justify-end">
+            <button
+              type="submit"
+              disabled={isSubmitting || !title.trim()}
+              className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition"
+            >
+              {isSubmitting ? (
+                <>
+                  <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                  กำลังเพิ่ม...
+                </>
+              ) : (
+                'เพิ่มงาน'
+              )}
+            </button>
+          </div>
+        </form>
+
+        {/* Loading State */}
         {loading && (
           <div className="flex h-48 items-center justify-center">
             <div className="flex items-center space-x-2 text-slate-500">
@@ -64,23 +154,23 @@ const App = () => {
           </div>
         )}
 
-      
-        {error && !loading && (
+        {/* Error State */}
+        {error && (
           <div className="rounded-lg bg-red-50 p-4 border border-red-200 text-red-700 mb-6">
-            <p className="font-semibold text-sm">เกิดข้อผิดพลาดในการโหลดข้อมูล:</p>
+            <p className="font-semibold text-sm">เกิดข้อผิดพลาด:</p>
             <p className="text-sm mt-1">{error}</p>
-            <p className="text-xs text-red-500 mt-2">โปรดตรวจสอบว่า Backend API เปิดใช้งานอยู่ที่ {apiUrl} หรือไม่</p>
           </div>
         )}
 
-     
-        {!loading && !error && tasks.length === 0 && (
+        {/* Empty State */}
+        {!loading && tasks.length === 0 && (
           <div className="rounded-lg border-2 border-dashed border-slate-300 p-12 text-center">
-            <p className="text-sm text-slate-500">ยังไม่มีงานในระบบ</p>
+            <p className="text-sm text-slate-500">ยังไม่มีงานในระบบ ลองเพิ่มงานแรกของคุณด้านบนได้เลย!</p>
           </div>
         )}
 
-        {!loading && !error && tasks.length > 0 && (
+        {/* Task Cards */}
+        {!loading && tasks.length > 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
             {tasks.map((t) => (
               <div
