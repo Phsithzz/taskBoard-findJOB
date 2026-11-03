@@ -1,4 +1,3 @@
-import React from 'react'
 import { useJobStore } from '../stores/useJobStore'
 
 export const Sidebar = () => {
@@ -21,7 +20,7 @@ export const Sidebar = () => {
         <div className="flex flex-col items-center text-center pb-5 border-b border-slate-800/80">
           <div className="relative mb-3 group">
             <img
-              src="/profile.jpg"
+              src="/photo_v2.jpg"
               alt="Profile"
               onError={(e) => {
                 e.target.style.display = 'none'
