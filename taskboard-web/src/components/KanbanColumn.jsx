@@ -27,22 +27,24 @@ export const KanbanColumn = ({
       }`}
     >
       <div className={`flex items-center justify-between p-3.5 border-b-[2.5px] border-black ${statusInfo.headerBg}`}>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 opacity-60">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-1 opacity-60 shrink-0">
             <span className="w-2 h-2 rounded-full border border-black bg-white inline-block"></span>
             <span className="w-2 h-2 rounded-full border border-black bg-white inline-block"></span>
             <span className="w-2 h-2 rounded-full border border-black bg-black inline-block"></span>
           </div>
 
-          <h2 className="font-mono font-black text-xs uppercase tracking-wider flex items-center gap-1.5 ml-1">
-            <span>{statusInfo.label}</span>
-            <span className="text-[10px] font-bold opacity-75">
-              ({statusInfo.thaiLabel})
+          <div className="flex flex-col items-start ml-1 leading-tight min-w-0">
+            <span className="font-mono font-black text-xs uppercase tracking-wider text-black truncate">
+              {statusInfo.label}
             </span>
-          </h2>
+            <span className="text-[10px] font-bold text-black/80 truncate">
+              {statusInfo.thaiLabel}
+            </span>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <span className="rounded-md px-2 py-0.5 text-xs font-mono font-black border-2 border-black bg-black text-[#C6FF33] shadow-[1px_1px_0px_#000]">
             {jobs.length}
           </span>

@@ -124,7 +124,7 @@ export const JobModal = () => {
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.15 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-5xl rounded-2xl bg-white border-[3px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden my-auto cursor-default"
+            className="w-full max-w-5xl rounded-2xl bg-white border-[3px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden my-auto cursor-default font-sans"
           >
             <div className="flex items-center justify-between px-6 py-3.5 border-b-[2.5px] border-black bg-black text-white font-mono">
               <div className="flex items-center gap-3">
@@ -165,7 +165,7 @@ export const JobModal = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 sm:p-8 max-h-[82vh] overflow-y-auto font-mono">
+            <form onSubmit={handleSubmit} className="p-6 sm:p-8 max-h-[82vh] overflow-y-auto">
               {validationError && (
                 <div className="mb-6 rounded-xl bg-rose-100 border-2 border-black p-3.5 text-xs font-bold text-black flex items-center gap-2 shadow-[3px_3px_0px_#000]">
                   <span>⚠️</span>
@@ -277,6 +277,37 @@ export const JobModal = () => {
                     </div>
                   </div>
 
+                  <div>
+                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2">
+                      Application Status
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {Object.entries(STATUS_CONFIG).map(([key, config]) => {
+                        const isSelected = form.status === key
+                        return (
+                          <button
+                            type="button"
+                            key={key}
+                            onClick={() => setForm({ ...form, status: key })}
+                            className={`flex flex-col items-start p-2.5 rounded-lg border-2 border-black transition cursor-pointer text-left leading-tight ${
+                              isSelected
+                                ? `${config.pillClass} ring-2 ring-black`
+                                : 'bg-white hover:bg-slate-100 shadow-[1.5px_1.5px_0px_#000]'
+                            }`}
+                          >
+                            <div className="flex items-center gap-1.5 font-mono font-black text-xs uppercase">
+                              <span>{config.icon}</span>
+                              <span>{config.label}</span>
+                            </div>
+                            <span className="text-[10px] font-bold opacity-80 mt-1">
+                              {config.thaiLabel}
+                            </span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-black text-black uppercase tracking-wider mb-2">
@@ -292,42 +323,25 @@ export const JobModal = () => {
 
                     <div>
                       <label className="block text-xs font-black text-black uppercase tracking-wider mb-2">
-                        Status
+                        Compensation Rate (THB)
                       </label>
-                      <select
-                        value={form.status}
-                        onChange={(e) => setForm({ ...form, status: e.target.value })}
-                        className="w-full rounded-lg border-2 border-black px-3 py-2 text-xs font-black text-black outline-none bg-white cursor-pointer shadow-[2px_2px_0px_#000] uppercase"
-                      >
-                        {Object.entries(STATUS_CONFIG).map(([key, config]) => (
-                          <option key={key} value={key}>
-                            {config.label} ({config.thaiLabel})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2">
-                      Compensation Rate (THB)
-                    </label>
-                    <div className="flex items-center gap-3">
-                      <div className="relative flex-1">
-                        <span className="absolute left-3 top-2.5 text-[11px] font-black text-slate-500">
-                          THB
+                      <div className="flex items-center gap-2">
+                        <div className="relative flex-1">
+                          <span className="absolute left-3 top-2 text-[11px] font-black text-slate-500">
+                            THB
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="e.g. 35k - 55k"
+                            value={form.salary}
+                            onChange={(e) => setForm({ ...form, salary: e.target.value })}
+                            className="w-full rounded-lg border-2 border-black py-1.5 pl-11 pr-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
+                          />
+                        </div>
+                        <span className="text-[11px] font-black text-black rounded-lg bg-black text-white px-2.5 py-2 border-2 border-black">
+                          /MO
                         </span>
-                        <input
-                          type="text"
-                          placeholder="e.g. 35,000 - 55,000"
-                          value={form.salary}
-                          onChange={(e) => setForm({ ...form, salary: e.target.value })}
-                          className="w-full rounded-lg border-2 border-black py-2 pl-12 pr-3 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
-                        />
                       </div>
-                      <span className="text-xs font-black text-black rounded-lg bg-black text-white px-3 py-2 border-2 border-black">
-                        /MONTH
-                      </span>
                     </div>
                   </div>
 
