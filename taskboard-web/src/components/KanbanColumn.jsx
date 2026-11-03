@@ -20,7 +20,7 @@ export const KanbanColumn = ({
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
-      className={`flex flex-col min-w-[290px] max-w-[340px] flex-1 shrink-0 rounded-[28px] border transition-all duration-150 ${
+      className={`flex flex-col min-w-[260px] flex-1 shrink-0 rounded-[28px] border transition-all duration-150 ${
         statusInfo.columnBorder
       } border-t-4 ${
         isDragOver
@@ -61,7 +61,7 @@ export const KanbanColumn = ({
         </div>
       </div>
 
-      <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto max-h-[calc(100vh-250px)] min-h-[200px]">
+      <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto max-h-[calc(100vh-270px)] min-h-[220px]">
         {jobs.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-36 rounded-2xl border border-dashed border-slate-300/80 text-center p-4 text-xs text-slate-400">
             <span>ยังไม่มีรายการในสถานะนี้</span>
