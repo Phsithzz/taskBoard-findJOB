@@ -1,5 +1,7 @@
 import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
+import { FiStar, FiEdit3, FiTrash2, FiExternalLink, FiArrowRight, FiChevronDown, FiCalendar } from 'react-icons/fi'
+import { FaStar } from 'react-icons/fa6'
 import { useJobStore } from '../stores/useJobStore'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 import { StatusDropdown } from './StatusDropdown'
@@ -28,7 +30,7 @@ export const JobCard = ({ job, onDragStart }) => {
       whileTap={{ scale: 0.98 }}
       draggable
       onDragStart={(e) => onDragStart(e, job.id)}
-      className="group relative rounded-xl border-2 border-black bg-white p-4 shadow-[4px_4px_0px_#000000] hover:shadow-[6px_6px_0px_#000000] transition-all cursor-grab active:cursor-grabbing"
+      className="group relative rounded-xl border-2 border-black bg-white p-4 shadow-[4px_4px_0px_#000000] hover:shadow-[6px_6px_0px_#000000] transition-all cursor-grab active:cursor-grabbing font-sans"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2.5">
@@ -62,10 +64,8 @@ export const JobCard = ({ job, onDragStart }) => {
             className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black transition cursor-pointer ${statusObj.pillClass}`}
           >
             {statusObj.icon}
-            <span className="uppercase">{statusObj.label}</span>
-            <svg className="w-3 h-3 ml-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-            </svg>
+            <span className="uppercase font-mono">{statusObj.label}</span>
+            <FiChevronDown className="w-3.5 h-3.5 ml-0.5" />
           </button>
 
           {isDropdownOpen && (
@@ -97,15 +97,16 @@ export const JobCard = ({ job, onDragStart }) => {
         )}
 
         {job.due && (
-          <span className="inline-flex items-center rounded bg-[#D7BAFF] text-black font-bold px-2 py-0.5 border border-black">
-            📅 {job.due}
+          <span className="inline-flex items-center gap-1 rounded bg-[#D7BAFF] text-black font-bold px-2 py-0.5 border border-black">
+            <FiCalendar className="w-3 h-3" />
+            <span>{job.due}</span>
           </span>
         )}
       </div>
 
       {job.notes && (
-        <div className="mt-2.5 rounded-lg bg-slate-50 border border-slate-300 p-2 text-[11px] text-slate-800 line-clamp-2 font-mono">
-          <span className="font-black text-black">NOTE:</span> {job.notes}
+        <div className="mt-2.5 rounded-lg bg-slate-50 border border-slate-300 p-2 text-[11px] text-slate-800 line-clamp-2">
+          <span className="font-mono font-black text-black">NOTE:</span> {job.notes}
         </div>
       )}
 
@@ -121,9 +122,7 @@ export const JobCard = ({ job, onDragStart }) => {
               title="ลิงก์ประกาศงาน"
               className="p-1 hover:text-black transition"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
+              <FiExternalLink className="w-3.5 h-3.5" />
             </a>
           )}
 
@@ -131,9 +130,13 @@ export const JobCard = ({ job, onDragStart }) => {
             type="button"
             onClick={() => toggleStar(job)}
             title="ติดดาว"
-            className={`p-1 transition cursor-pointer text-sm ${job.starred ? 'text-amber-500 font-bold' : 'hover:text-amber-500 text-slate-400'}`}
+            className="p-1 transition cursor-pointer text-sm"
           >
-            ★
+            {job.starred ? (
+              <FaStar className="w-3.5 h-3.5 text-amber-500" />
+            ) : (
+              <FiStar className="w-3.5 h-3.5 text-slate-400 hover:text-amber-500" />
+            )}
           </button>
 
           <button
@@ -142,9 +145,7 @@ export const JobCard = ({ job, onDragStart }) => {
             title="แก้ไข"
             className="p-1 hover:text-black transition cursor-pointer"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
+            <FiEdit3 className="w-3.5 h-3.5" />
           </button>
 
           <button
@@ -153,9 +154,7 @@ export const JobCard = ({ job, onDragStart }) => {
             title="ลบ"
             className="p-1 hover:text-rose-600 transition cursor-pointer"
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+            <FiTrash2 className="w-3.5 h-3.5" />
           </button>
 
           <button
@@ -164,7 +163,7 @@ export const JobCard = ({ job, onDragStart }) => {
             title="ดูรายละเอียด"
             className="flex h-6 w-6 items-center justify-center rounded-md bg-black text-[#C6FF33] border border-black font-mono font-black text-xs hover:bg-[#C6FF33] hover:text-black transition cursor-pointer shadow-[1.5px_1.5px_0px_#000] ml-0.5"
           >
-            →
+            <FiArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

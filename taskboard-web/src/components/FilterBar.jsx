@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { FiSearch, FiChevronDown, FiStar, FiX, FiPlus, FiArrowRight } from 'react-icons/fi'
+import { FaStar } from 'react-icons/fa6'
 import { useJobStore } from '../stores/useJobStore'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 
@@ -36,7 +38,7 @@ export const FilterBar = () => {
   const currentStatusLabel = currentStatusObj ? currentStatusObj.label : 'All Statuses'
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b-2 border-black font-mono">
+    <div className="flex flex-wrap items-center justify-between gap-4 pb-2 border-b-2 border-black font-sans">
       <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
         <div className="relative flex items-center bg-white rounded-xl border-2 border-black shadow-[3px_3px_0px_#000000] pl-3.5 pr-1.5 py-1 flex-1 max-w-md focus-within:ring-2 focus-within:ring-[#7D39EB] transition">
           <input
@@ -44,7 +46,7 @@ export const FilterBar = () => {
             placeholder="Search saved jobs, company, notes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full text-xs font-mono font-bold text-black placeholder:text-slate-400 outline-none bg-transparent"
+            className="w-full text-xs font-bold text-black placeholder:text-slate-400 outline-none bg-transparent"
           />
 
           <div className="flex items-center gap-1">
@@ -54,7 +56,7 @@ export const FilterBar = () => {
                 onClick={() => setSearchQuery('')}
                 className="px-1 text-xs font-bold text-slate-500 hover:text-black cursor-pointer"
               >
-                ✕
+                <FiX className="w-3.5 h-3.5" />
               </button>
             )}
 
@@ -62,14 +64,12 @@ export const FilterBar = () => {
               type="button"
               className="flex h-7 w-7 items-center justify-center rounded-lg bg-black text-[#C6FF33] border border-black hover:bg-[#C6FF33] hover:text-black transition cursor-pointer"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <FiSearch className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-black">
+        <div className="flex items-center gap-2 text-xs font-black font-mono">
           <button
             type="button"
             onClick={() => {
@@ -94,13 +94,13 @@ export const FilterBar = () => {
                 : 'bg-white text-black hover:bg-slate-100 shadow-[2px_2px_0px_#000000]'
             }`}
           >
-            <span>★</span>
+            {onlyStarred ? <FaStar className="w-3 h-3 text-black" /> : <FiStar className="w-3 h-3" />}
             <span>STARRED</span>
           </button>
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2.5">
+      <div className="flex flex-wrap items-center gap-2.5 font-mono">
         <div className="relative" ref={statusMenuRef}>
           <button
             type="button"
@@ -114,9 +114,7 @@ export const FilterBar = () => {
               <span className="w-2.5 h-2.5 rounded-full border border-black bg-[#C6FF33]"></span>
             )}
             <span className="uppercase">{currentStatusLabel}</span>
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-            </svg>
+            <FiChevronDown className="w-3.5 h-3.5" />
           </button>
 
           {isStatusMenuOpen && (
@@ -174,9 +172,7 @@ export const FilterBar = () => {
             className="inline-flex items-center gap-2 rounded-xl border-2 border-black bg-white px-3.5 py-2 text-xs font-black text-black shadow-[3px_3px_0px_#000000] hover:bg-slate-50 transition cursor-pointer active:translate-x-[1px] active:translate-y-[1px]"
           >
             <span className="uppercase">{selectedPlatformFilter === 'all' ? 'PLATFORMS: ALL' : selectedPlatformFilter}</span>
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-            </svg>
+            <FiChevronDown className="w-3.5 h-3.5" />
           </button>
 
           {isPlatformMenuOpen && (
@@ -224,10 +220,11 @@ export const FilterBar = () => {
         <button
           type="button"
           onClick={() => openCreateModal('applied')}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-[#C6FF33] text-black border-2 border-black px-4 py-2 text-xs font-black uppercase shadow-[3px_3px_0px_#000000] hover:bg-[#bbf426] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-[#C6FF33] text-black border-2 border-black px-4 py-2 text-xs font-black uppercase shadow-[3px_3px_0px_#000000] hover:bg-[#bbf426] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer font-mono"
         >
-          <span>+ ADD JOB</span>
-          <span>→</span>
+          <FiPlus className="w-3.5 h-3.5" />
+          <span>ADD JOB</span>
+          <FiArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>

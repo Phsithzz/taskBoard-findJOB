@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { FiPlus, FiArrowRight } from 'react-icons/fi'
 import { useJobStore } from '../stores/useJobStore'
 
 export const TopBar = () => {
@@ -21,12 +22,12 @@ export const TopBar = () => {
       initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="w-full bg-black text-white border-[2.5px] border-black shadow-[6px_6px_0px_#000000] rounded-2xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-4"
+      className="w-full bg-black text-white border-[2.5px] border-black shadow-[6px_6px_0px_#000000] rounded-2xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-4 font-sans"
     >
       <div className="flex items-center gap-3.5">
         <div className="relative group shrink-0">
           <img
-            src="/photo_v2.jpg"
+            src="/profile.jpg"
             alt="Profile"
             onError={(e) => {
               e.target.style.display = 'none'
@@ -45,7 +46,7 @@ export const TopBar = () => {
             <h1 className="text-base font-black tracking-wider uppercase text-white font-mono">
               JOBHUNT // PHOOSITH
             </h1>
-            <span className="rounded-md bg-[#C6FF33] text-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
+            <span className="rounded-md bg-[#C6FF33] text-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider font-mono">
               ONLINE
             </span>
           </div>
@@ -97,12 +98,12 @@ export const TopBar = () => {
             <span className="text-slate-300 text-[10px] uppercase font-bold">Saved:</span>
             <strong className="text-white font-black">{bookmarkedCount}</strong>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-white"></span>
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-[#7DD3FC]/40">
+            <span className="w-2 h-2 rounded-full bg-[#7DD3FC]"></span>
             <span className="text-slate-300 text-[10px] uppercase font-bold">Applied:</span>
-            <strong className="text-white font-black">{appliedCount}</strong>
+            <strong className="text-[#7DD3FC] font-black">{appliedCount}</strong>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-white/10">
+          <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/40 border border-[#D7BAFF]/40">
             <span className="w-2 h-2 rounded-full bg-[#D7BAFF]"></span>
             <span className="text-slate-300 text-[10px] uppercase font-bold">Interview:</span>
             <strong className="text-[#D7BAFF] font-black">{interviewCount}</strong>
@@ -119,11 +120,11 @@ export const TopBar = () => {
         <button
           type="button"
           onClick={() => openCreateModal('applied')}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#C6FF33] text-black font-black text-xs uppercase px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_#000000] hover:bg-[#bbf426] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-xl bg-[#C6FF33] text-black font-black text-xs uppercase px-5 py-2.5 border-2 border-black shadow-[3px_3px_0px_#000000] hover:bg-[#bbf426] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer font-mono"
         >
-          <span className="text-sm font-black">+</span>
+          <FiPlus className="w-3.5 h-3.5" />
           <span>Add Application</span>
-          <span className="font-mono">→</span>
+          <FiArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </motion.header>

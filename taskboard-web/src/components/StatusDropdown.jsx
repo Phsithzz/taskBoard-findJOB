@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { FiArrowRight } from 'react-icons/fi'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 
 export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
@@ -11,7 +12,7 @@ export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
       exit={{ opacity: 0, scale: 0.92, y: -6 }}
       transition={{ duration: 0.12 }}
       onClick={(e) => e.stopPropagation()}
-      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-xl border-[2.5px] border-black bg-white p-3.5 shadow-[6px_6px_0px_#000000]"
+      className="absolute right-0 top-full mt-2 z-50 w-64 rounded-xl border-[2.5px] border-black bg-white p-3.5 shadow-[6px_6px_0px_#000000] font-sans"
     >
       <div className="flex items-center justify-between pb-2 mb-2 border-b-2 border-black font-mono">
         <h3 className="text-xs font-black uppercase tracking-wider text-black">
@@ -40,7 +41,7 @@ export const StatusDropdown = ({ job, onSelectStatus, dropdownRef }) => {
                 <span className="tracking-tight">{s.label}</span>
               </div>
 
-              <span className="font-mono font-black text-xs">→</span>
+              <FiArrowRight className="w-3.5 h-3.5" />
             </button>
           )
         })}
