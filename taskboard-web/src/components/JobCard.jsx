@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { FiStar, FiEdit3, FiTrash2, FiExternalLink, FiArrowRight, FiChevronDown, FiCalendar } from 'react-icons/fi'
 import { FaStar } from 'react-icons/fa6'
 import { useJobStore } from '../stores/useJobStore'
-import { STATUS_CONFIG } from '../constants/statusConfig'
+import { STATUS_CONFIG, getPlatformLogo } from '../constants/statusConfig'
 import { StatusDropdown } from './StatusDropdown'
 
 export const JobCard = ({ job, onDragStart }) => {
@@ -85,8 +85,15 @@ export const JobCard = ({ job, onDragStart }) => {
       )}
 
       <div className="mt-3 flex flex-wrap items-center gap-1.5 font-mono text-[10px]">
-        <span className="inline-flex items-center rounded bg-black text-[#C6FF33] font-bold px-2 py-0.5 border border-black">
-          {job.platform || 'LinkedIn'}
+        <span className="inline-flex items-center gap-1.5 rounded bg-black text-[#C6FF33] font-bold px-2 py-0.5 border border-black">
+          {getPlatformLogo(job.platform || 'LinkedIn') && (
+            <img
+              src={getPlatformLogo(job.platform || 'LinkedIn')}
+              alt=""
+              className="w-3.5 h-3.5 rounded-xs object-contain"
+            />
+          )}
+          <span>{job.platform || 'LinkedIn'}</span>
         </span>
 
         {job.work_type && (

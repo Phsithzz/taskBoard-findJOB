@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ClipLoader } from 'react-spinners'
 import { FiBriefcase, FiMapPin, FiUser, FiLink, FiArrowRight } from 'react-icons/fi'
 import { useJobStore } from '../stores/useJobStore'
-import { STATUS_CONFIG } from '../constants/statusConfig'
+import { STATUS_CONFIG, getPlatformLogo } from '../constants/statusConfig'
 import { DatePicker } from './DatePicker'
 
 export const JobModal = () => {
@@ -232,18 +232,26 @@ export const JobModal = () => {
                         <div className="flex flex-wrap gap-1.5">
                           {platforms.map((p) => {
                             const isSelected = form.platform === p
+                            const logo = getPlatformLogo(p)
                             return (
                               <button
                                 type="button"
                                 key={p}
                                 onClick={() => setForm({ ...form, platform: p })}
-                                className={`rounded-lg px-2.5 py-1 text-xs font-black border-2 border-black uppercase font-mono transition cursor-pointer ${
+                                className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-black border-2 border-black uppercase font-mono transition cursor-pointer ${
                                   isSelected
                                     ? 'bg-[#C6FF33] text-black shadow-[2px_2px_0px_#000]'
                                     : 'bg-white text-black hover:bg-slate-100 shadow-[1px_1px_0px_#000]'
                                 }`}
                               >
-                                {p}
+                                {logo && (
+                                  <img
+                                    src={logo}
+                                    alt={p}
+                                    className="w-3.5 h-3.5 rounded-xs object-contain shrink-0"
+                                  />
+                                )}
+                                <span>{p}</span>
                               </button>
                             )
                           })}

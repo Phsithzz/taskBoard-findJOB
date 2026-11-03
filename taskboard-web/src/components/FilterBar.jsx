@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FiSearch, FiChevronDown, FiStar, FiX, FiPlus, FiArrowRight } from 'react-icons/fi'
 import { FaStar } from 'react-icons/fa6'
 import { useJobStore } from '../stores/useJobStore'
-import { STATUS_CONFIG } from '../constants/statusConfig'
+import { STATUS_CONFIG, getPlatformLogo } from '../constants/statusConfig'
 
 export const FilterBar = () => {
   const platforms = useJobStore((state) => state.platforms)
@@ -171,7 +171,16 @@ export const FilterBar = () => {
             }}
             className="inline-flex items-center gap-2 rounded-xl border-2 border-black bg-white px-3.5 py-2 text-xs font-black text-black shadow-[3px_3px_0px_#000000] hover:bg-slate-50 transition cursor-pointer active:translate-x-[1px] active:translate-y-[1px]"
           >
-            <span className="uppercase">{selectedPlatformFilter === 'all' ? 'PLATFORMS: ALL' : selectedPlatformFilter}</span>
+            <span className="uppercase inline-flex items-center gap-1.5">
+              {selectedPlatformFilter !== 'all' && getPlatformLogo(selectedPlatformFilter) && (
+                <img
+                  src={getPlatformLogo(selectedPlatformFilter)}
+                  alt=""
+                  className="w-3.5 h-3.5 rounded-xs object-contain"
+                />
+              )}
+              <span>{selectedPlatformFilter === 'all' ? 'PLATFORMS: ALL' : selectedPlatformFilter}</span>
+            </span>
             <FiChevronDown className="w-3.5 h-3.5" />
           </button>
 
@@ -195,24 +204,32 @@ export const FilterBar = () => {
 
               <div className="my-1.5 border-t-2 border-black" />
 
-              {platforms.map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => {
-                    setSelectedPlatformFilter(p)
-                    setIsPlatformMenuOpen(false)
-                  }}
-                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-bold uppercase cursor-pointer transition ${
-                    selectedPlatformFilter === p
-                      ? 'bg-black text-white'
-                      : 'text-black hover:bg-slate-100'
-                  }`}
-                >
-                  <span>{p}</span>
-                  {selectedPlatformFilter === p && <span>✓</span>}
-                </button>
-              ))}
+              {platforms.map((p) => {
+                const logo = getPlatformLogo(p)
+                return (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => {
+                      setSelectedPlatformFilter(p)
+                      setIsPlatformMenuOpen(false)
+                    }}
+                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-xs font-bold uppercase cursor-pointer transition ${
+                      selectedPlatformFilter === p
+                        ? 'bg-black text-white'
+                        : 'text-black hover:bg-slate-100'
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      {logo && (
+                        <img src={logo} alt="" className="w-4 h-4 rounded-xs object-contain" />
+                      )}
+                      <span>{p}</span>
+                    </span>
+                    {selectedPlatformFilter === p && <span>✓</span>}
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>

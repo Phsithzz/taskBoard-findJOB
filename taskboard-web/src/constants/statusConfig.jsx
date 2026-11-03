@@ -1,5 +1,9 @@
 import React from 'react'
 import { FaFlag, FaPaperPlane, FaComments, FaBookmark, FaHand } from 'react-icons/fa6'
+import linkedinLogo from '../assets/images/linkin.jpg'
+import jobsdbLogo from '../assets/images/jobdb.png'
+import jobbkkLogo from '../assets/images/jobbkk.png'
+import jobthaiLogo from '../assets/images/jobthai.png'
 
 export const STATUS_CONFIG = {
   accepted: {
@@ -60,3 +64,20 @@ export const STATUS_CONFIG = {
 }
 
 export const DEFAULT_PLATFORMS = ['LinkedIn', 'JobsDB', 'JobBKK', 'JobThai']
+
+export const PLATFORM_LOGOS = {
+  LinkedIn: linkedinLogo,
+  JobsDB: jobsdbLogo,
+  JobBKK: jobbkkLogo,
+  JobThai: jobthaiLogo,
+}
+
+export const getPlatformLogo = (platformName) => {
+  if (!platformName) return null
+  const lower = platformName.toLowerCase().replace(/\s+/g, '')
+  if (lower.includes('link')) return linkedinLogo
+  if (lower.includes('jobdb') || lower.includes('jobsdb')) return jobsdbLogo
+  if (lower.includes('jobbkk') || lower.includes('bkk')) return jobbkkLogo
+  if (lower.includes('jobthai') || lower.includes('thai')) return jobthaiLogo
+  return null
+}
