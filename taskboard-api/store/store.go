@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -62,7 +63,10 @@ func All() []models.Task {
 
 func Add(t models.Task) (models.Task, error) {
 	if t.Status == "" {
-		t.Status = "planned"
+		t.Status = "applied"
+	}
+	if t.CreatedAt == "" {
+		t.CreatedAt = time.Now().Format("02/01/2006")
 	}
 	t.ID = bson.NewObjectID()
 
@@ -82,10 +86,18 @@ func Update(id string, t models.Task) (models.Task, bool) {
 
 	update := bson.M{
 		"$set": bson.M{
-			"title":  t.Title,
-			"desc":   t.Desc,
-			"due":    t.Due,
-			"status": t.Status,
+			"title":      t.Title,
+			"company":    t.Company,
+			"platform":   t.Platform,
+			"work_type":  t.WorkType,
+			"salary":     t.Salary,
+			"location":   t.Location,
+			"job_url":    t.JobURL,
+			"status":     t.Status,
+			"due":        t.Due,
+			"desc":       t.Desc,
+			"notes":      t.Notes,
+			"starred":    t.Starred,
 		},
 	}
 
