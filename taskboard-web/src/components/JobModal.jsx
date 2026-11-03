@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ClipLoader } from 'react-spinners'
-import { FiBriefcase, FiMapPin, FiUser, FiLink, FiStar, FiArrowRight, FiCheck } from 'react-icons/fi'
+import { FiBriefcase, FiMapPin, FiUser, FiLink, FiArrowRight } from 'react-icons/fi'
 import { useJobStore } from '../stores/useJobStore'
 import { STATUS_CONFIG } from '../constants/statusConfig'
 import { DatePicker } from './DatePicker'
@@ -118,17 +118,17 @@ export const JobModal = () => {
       {isModalOpen && (
         <div
           onClick={closeModal}
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-xs overflow-y-auto cursor-pointer"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/75 backdrop-blur-xs overflow-y-auto cursor-pointer"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ duration: 0.15 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-5xl rounded-2xl bg-white border-[3px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden my-auto cursor-default font-sans"
+            className="w-[95vw] max-w-6xl xl:max-w-7xl rounded-2xl bg-white border-[3px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden my-auto cursor-default font-sans"
           >
-            <div className="flex items-center justify-between px-6 py-3.5 border-b-[2.5px] border-black bg-black text-white font-mono">
+            <div className="flex items-center justify-between px-5 py-3 border-b-[2.5px] border-black bg-black text-white font-mono">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-[#FF8080] border border-black inline-block"></span>
@@ -145,7 +145,7 @@ export const JobModal = () => {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="rounded-lg border-2 border-white px-3.5 py-1.5 text-xs font-bold text-white hover:bg-white hover:text-black transition cursor-pointer"
+                  className="rounded-lg border-2 border-white px-3 py-1 text-xs font-bold text-white hover:bg-white hover:text-black transition cursor-pointer"
                 >
                   DRAFT
                 </button>
@@ -153,7 +153,7 @@ export const JobModal = () => {
                   type="button"
                   disabled={submitting}
                   onClick={handleSubmit}
-                  className="rounded-lg bg-[#C6FF33] text-black border-2 border-black px-4 py-1.5 text-xs font-black uppercase shadow-[2px_2px_0px_#C6FF33] hover:bg-[#bbf426] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer flex items-center gap-1.5"
+                  className="rounded-lg bg-[#C6FF33] text-black border-2 border-black px-4 py-1 text-xs font-black uppercase shadow-[2px_2px_0px_#C6FF33] hover:bg-[#bbf426] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   {submitting ? (
                     <ClipLoader size={12} color="#000000" />
@@ -167,22 +167,22 @@ export const JobModal = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 sm:p-8 max-h-[82vh] overflow-y-auto font-sans">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-5 max-h-[86vh] overflow-y-auto font-sans">
               {validationError && (
-                <div className="mb-6 rounded-xl bg-rose-100 border-2 border-black p-3.5 text-xs font-bold text-black flex items-center gap-2 shadow-[3px_3px_0px_#000]">
+                <div className="mb-4 rounded-xl bg-rose-100 border-2 border-black p-3 text-xs font-bold text-black flex items-center gap-2 shadow-[3px_3px_0px_#000]">
                   <span>⚠️</span>
                   <span>{validationError}</span>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div className="lg:col-span-7 space-y-6">
-                  <h1 className="text-2xl font-black text-black tracking-tight uppercase font-mono">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                <div className="lg:col-span-7 space-y-3.5">
+                  <h1 className="text-xl font-black text-black tracking-tight uppercase font-mono">
                     {editingJob ? 'EDIT APPLICATION' : 'CREATE JOB RECORD'}
                   </h1>
 
                   <div>
-                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2 font-mono">
+                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                       Job Title <span className="text-rose-600">*</span>
                     </label>
                     <input
@@ -191,99 +191,101 @@ export const JobModal = () => {
                       placeholder="e.g. Senior Frontend Developer"
                       value={form.title}
                       onChange={(e) => setForm({ ...form, title: e.target.value })}
-                      className="w-full rounded-lg border-2 border-black px-3.5 py-2.5 text-xs font-bold text-black focus:ring-2 focus:ring-[#7D39EB] outline-none shadow-[2px_2px_0px_#000]"
+                      className="w-full rounded-lg border-2 border-black px-3 py-2 text-xs font-bold text-black focus:ring-2 focus:ring-[#7D39EB] outline-none shadow-[2px_2px_0px_#000]"
                     />
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-2 font-mono">
-                      <label className="block text-xs font-black text-black uppercase tracking-wider">
-                        Source Platform
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setIsAddingCustomPlatform(!isAddingCustomPlatform)}
-                        className="text-xs font-black text-[#7D39EB] underline hover:text-black cursor-pointer"
-                      >
-                        {isAddingCustomPlatform ? 'Cancel' : '+ ADD OTHER'}
-                      </button>
-                    </div>
-
-                    {isAddingCustomPlatform ? (
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          placeholder="เช่น Fastwork, Indeed, Direct Email"
-                          value={customPlatformInput}
-                          onChange={(e) => setCustomPlatformInput(e.target.value)}
-                          className="flex-1 rounded-lg border-2 border-black px-3 py-2 text-xs font-bold outline-none shadow-[2px_2px_0px_#000]"
-                          autoFocus
-                        />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                      <div className="flex items-center justify-between mb-1 font-mono">
+                        <label className="block text-xs font-black text-black uppercase tracking-wider">
+                          Source Platform
+                        </label>
                         <button
                           type="button"
-                          onClick={handleCustomPlatformAdd}
-                          className="rounded-lg bg-[#C6FF33] text-black border-2 border-black px-4 py-2 text-xs font-black hover:bg-[#bbf426] transition cursor-pointer shadow-[2px_2px_0px_#000]"
+                          onClick={() => setIsAddingCustomPlatform(!isAddingCustomPlatform)}
+                          className="text-[11px] font-black text-[#7D39EB] underline hover:text-black cursor-pointer"
                         >
-                          ADD
+                          {isAddingCustomPlatform ? 'Cancel' : '+ ADD OTHER'}
                         </button>
                       </div>
-                    ) : (
-                      <div className="flex flex-wrap gap-2">
-                        {platforms.map((p) => {
-                          const isSelected = form.platform === p
+
+                      {isAddingCustomPlatform ? (
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="เช่น Fastwork, Indeed"
+                            value={customPlatformInput}
+                            onChange={(e) => setCustomPlatformInput(e.target.value)}
+                            className="flex-1 rounded-lg border-2 border-black px-2.5 py-1.5 text-xs font-bold outline-none shadow-[2px_2px_0px_#000]"
+                            autoFocus
+                          />
+                          <button
+                            type="button"
+                            onClick={handleCustomPlatformAdd}
+                            className="rounded-lg bg-[#C6FF33] text-black border-2 border-black px-3 py-1.5 text-xs font-black hover:bg-[#bbf426] transition cursor-pointer shadow-[2px_2px_0px_#000]"
+                          >
+                            ADD
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-wrap gap-1.5">
+                          {platforms.map((p) => {
+                            const isSelected = form.platform === p
+                            return (
+                              <button
+                                type="button"
+                                key={p}
+                                onClick={() => setForm({ ...form, platform: p })}
+                                className={`rounded-lg px-2.5 py-1 text-xs font-black border-2 border-black uppercase font-mono transition cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-[#C6FF33] text-black shadow-[2px_2px_0px_#000]'
+                                    : 'bg-white text-black hover:bg-slate-100 shadow-[1px_1px_0px_#000]'
+                                }`}
+                              >
+                                {p}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-1.5 font-mono">
+                        Work Arrangement
+                      </label>
+                      <div className="flex flex-wrap items-center gap-4 text-xs text-black font-bold pt-0.5">
+                        {['Remote', 'Hybrid', 'Onsite'].map((type) => {
+                          const isSelected = form.work_type === type
                           return (
-                            <button
-                              type="button"
-                              key={p}
-                              onClick={() => setForm({ ...form, platform: p })}
-                              className={`rounded-lg px-3 py-1.5 text-xs font-black border-2 border-black uppercase font-mono transition cursor-pointer ${
-                                isSelected
-                                  ? 'bg-[#C6FF33] text-black shadow-[2px_2px_0px_#000]'
-                                  : 'bg-white text-black hover:bg-slate-100 shadow-[1px_1px_0px_#000]'
-                              }`}
+                            <label
+                              key={type}
+                              onClick={() => setForm({ ...form, work_type: type })}
+                              className="flex items-center gap-1.5 cursor-pointer select-none group"
                             >
-                              {p}
-                            </button>
+                              <span
+                                className={`flex h-4 w-4 items-center justify-center rounded-sm border-2 border-black transition ${
+                                  isSelected ? 'bg-black text-[#C6FF33]' : 'bg-white'
+                                }`}
+                              >
+                                {isSelected && <span className="h-2 w-2 bg-[#C6FF33]" />}
+                              </span>
+                              <span className={isSelected ? 'font-black underline' : 'font-bold'}>
+                                {type}
+                              </span>
+                            </label>
                           )
                         })}
                       </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2.5 font-mono">
-                      Work Arrangement
-                    </label>
-                    <div className="flex flex-wrap items-center gap-6 text-xs text-black font-bold">
-                      {['Remote', 'Hybrid', 'Onsite'].map((type) => {
-                        const isSelected = form.work_type === type
-                        return (
-                          <label
-                            key={type}
-                            onClick={() => setForm({ ...form, work_type: type })}
-                            className="flex items-center gap-2 cursor-pointer select-none group"
-                          >
-                            <span
-                              className={`flex h-4 w-4 items-center justify-center rounded-sm border-2 border-black transition ${
-                                isSelected ? 'bg-black text-[#C6FF33]' : 'bg-white'
-                              }`}
-                            >
-                              {isSelected && <span className="h-2 w-2 bg-[#C6FF33]" />}
-                            </span>
-                            <span className={isSelected ? 'font-black underline' : 'font-bold'}>
-                              {type}
-                            </span>
-                          </label>
-                        )
-                      })}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2 font-mono">
+                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                       Application Status
                     </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
                       {Object.entries(STATUS_CONFIG).map(([key, config]) => {
                         const isSelected = form.status === key
                         return (
@@ -291,17 +293,17 @@ export const JobModal = () => {
                             type="button"
                             key={key}
                             onClick={() => setForm({ ...form, status: key })}
-                            className={`flex flex-col items-start p-2.5 rounded-lg border-2 border-black transition cursor-pointer text-left leading-tight ${
+                            className={`flex flex-col items-center justify-center py-2 px-1 rounded-lg border-2 border-black transition cursor-pointer text-center leading-tight ${
                               isSelected
-                                ? `${config.pillClass} ring-2 ring-black scale-[1.01]`
-                                : `${config.pillClass} opacity-85 hover:opacity-100`
+                                ? `${config.pillClass} ring-2 ring-black scale-[1.02] shadow-[2px_2px_0px_#000]`
+                                : `${config.pillClass} opacity-80 hover:opacity-100 shadow-[1px_1px_0px_#000]`
                             }`}
                           >
-                            <div className="flex items-center gap-1.5 font-mono font-black text-xs uppercase">
+                            <div className="flex items-center gap-1 font-mono font-black text-[11px] uppercase">
                               <span>{config.icon}</span>
-                              <span>{config.label}</span>
+                              <span className="truncate">{config.label}</span>
                             </div>
-                            <span className="text-[10px] font-bold opacity-80 mt-1">
+                            <span className="text-[9.5px] font-bold opacity-80 mt-0.5 truncate">
                               {config.thaiLabel}
                             </span>
                           </button>
@@ -310,20 +312,21 @@ export const JobModal = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div>
-                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-2 font-mono">
+                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                         Deadline / Interview Date
                       </label>
                       <DatePicker
                         value={form.due}
                         onChange={(val) => setForm({ ...form, due: val })}
                         placeholder="วว/ดด/ปปปป"
+                        popDirection="up"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-2 font-mono">
+                      <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                         Compensation Rate (THB)
                       </label>
                       <div className="flex items-center gap-2">
@@ -339,7 +342,7 @@ export const JobModal = () => {
                             className="w-full rounded-lg border-2 border-black py-1.5 pl-11 pr-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] font-mono"
                           />
                         </div>
-                        <span className="text-[11px] font-black text-black rounded-lg bg-black text-white px-2.5 py-2 border-2 border-black font-mono">
+                        <span className="text-[11px] font-black text-black rounded-lg bg-black text-white px-2.5 py-1.5 border-2 border-black font-mono">
                           /MO
                         </span>
                       </div>
@@ -347,11 +350,11 @@ export const JobModal = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-2 font-mono">
+                    <label className="block text-xs font-black text-black uppercase tracking-wider mb-1 font-mono">
                       Description & Notes
                     </label>
                     <div className="rounded-xl border-2 border-black overflow-hidden shadow-[2px_2px_0px_#000]">
-                      <div className="flex items-center gap-2 border-b-2 border-black bg-slate-100 px-3 py-1.5 text-xs font-black">
+                      <div className="flex items-center gap-2 border-b-2 border-black bg-slate-100 px-3 py-1 text-xs font-black">
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer font-bold">B</span>
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer italic font-serif">I</span>
                         <span className="px-1.5 py-0.5 hover:bg-black hover:text-white rounded cursor-pointer underline">U</span>
@@ -359,20 +362,20 @@ export const JobModal = () => {
                         <span className="text-[10px] text-slate-500 uppercase font-mono">Interview Prep / Notes</span>
                       </div>
                       <textarea
-                        rows={4}
+                        rows={3}
                         placeholder="รายละเอียดงาน, สิ่งที่ต้องเตรียมตัวตอบคำถามสัมภาษณ์, ข้อมูลโปรเจกต์..."
                         value={form.notes}
                         onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                        className="w-full p-3 text-xs font-medium text-black outline-none resize-none bg-white font-sans"
+                        className="w-full p-2.5 text-xs font-medium text-black outline-none resize-none bg-white font-sans"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="lg:col-span-5">
-                  <div className="rounded-xl border-2 border-black bg-slate-50 p-5 space-y-4.5 shadow-[4px_4px_0px_#000000]">
-                    <div className="flex items-center justify-between border-b-2 border-black pb-2.5 font-mono">
-                      <h2 className="font-black text-black text-sm uppercase">
+                  <div className="rounded-xl border-2 border-black bg-slate-50 p-4 sm:p-5 space-y-3.5 shadow-[4px_4px_0px_#000000]">
+                    <div className="flex items-center justify-between border-b-2 border-black pb-2 font-mono">
+                      <h2 className="font-black text-black text-xs uppercase">
                         Employer Details
                       </h2>
                       <span className="text-[10px] font-black text-slate-500 uppercase">
@@ -381,12 +384,12 @@ export const JobModal = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-black uppercase mb-1.5 font-mono">
+                      <label className="block text-xs font-black text-black uppercase mb-1 font-mono">
                         Company <span className="text-rose-600">*</span>
                       </label>
                       <div className="flex items-center gap-2">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-black text-[#C6FF33] border-2 border-black font-black text-sm shadow-[1.5px_1.5px_0px_#000] shrink-0">
-                          <FiBriefcase className="w-4 h-4" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-[#C6FF33] border-2 border-black font-black text-sm shadow-[1.5px_1.5px_0px_#000] shrink-0">
+                          <FiBriefcase className="w-3.5 h-3.5" />
                         </div>
                         <input
                           type="text"
@@ -394,13 +397,13 @@ export const JobModal = () => {
                           placeholder="e.g. Agoda, SCB TechX"
                           value={form.company}
                           onChange={(e) => setForm({ ...form, company: e.target.value })}
-                          className="flex-1 rounded-lg border-2 border-black bg-white px-3 py-2 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
+                          className="flex-1 rounded-lg border-2 border-black bg-white px-3 py-1.5 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-black uppercase mb-1.5 font-mono">
+                      <label className="block text-xs font-black text-black uppercase mb-1 font-mono">
                         Work Location / Branch
                       </label>
                       <div className="relative flex items-center">
@@ -409,14 +412,14 @@ export const JobModal = () => {
                           placeholder="e.g. Bangkok, BTS Asoke"
                           value={form.location}
                           onChange={(e) => setForm({ ...form, location: e.target.value })}
-                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-2 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
+                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-1.5 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
                         />
                         <FiMapPin className="w-3.5 h-3.5 absolute left-2.5 text-slate-500" />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-black uppercase mb-1.5 font-mono">
+                      <label className="block text-xs font-black text-black uppercase mb-1 font-mono">
                         Contact Person / HR
                       </label>
                       <div className="relative flex items-center">
@@ -425,14 +428,14 @@ export const JobModal = () => {
                           placeholder="e.g. Khun Somchai (HR Lead)"
                           value={form.desc}
                           onChange={(e) => setForm({ ...form, desc: e.target.value })}
-                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-2 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
+                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-1.5 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000]"
                         />
                         <FiUser className="w-3.5 h-3.5 absolute left-2.5 text-slate-500" />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-black uppercase mb-1.5 font-mono">
+                      <label className="block text-xs font-black text-black uppercase mb-1 font-mono">
                         Job Posting Link
                       </label>
                       <div className="relative flex items-center">
@@ -441,13 +444,13 @@ export const JobModal = () => {
                           placeholder="https://..."
                           value={form.job_url}
                           onChange={(e) => setForm({ ...form, job_url: e.target.value })}
-                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-2 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] font-mono"
+                          className="w-full rounded-lg border-2 border-black bg-white px-3 py-1.5 pl-8 text-xs font-bold text-black outline-none shadow-[2px_2px_0px_#000] font-mono"
                         />
                         <FiLink className="w-3.5 h-3.5 absolute left-2.5 text-slate-500" />
                       </div>
                     </div>
 
-                    <label className="flex items-center gap-2.5 p-3 rounded-lg bg-[#C6FF33]/40 border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer select-none">
+                    <label className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#C6FF33]/40 border-2 border-black shadow-[2px_2px_0px_#000] cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked={form.starred}

@@ -9,8 +9,9 @@ const MONTH_NAMES = [
 
 const DAYS_HEADER = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
-export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ปปปป' }) => {
+export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ปปปป', popDirection = 'auto' }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [direction, setDirection] = useState('down')
   const containerRef = useRef(null)
 
   const parseInitialDate = () => {
@@ -41,6 +42,22 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
       }
     }
   }, [value])
+
+  useEffect(() => {
+    if (isOpen && containerRef.current) {
+      if (popDirection === 'up' || popDirection === 'down') {
+        setDirection(popDirection)
+      } else {
+        const rect = containerRef.current.getBoundingClientRect()
+        const spaceBelow = window.innerHeight - rect.bottom
+        if (spaceBelow < 340 && rect.top > 300) {
+          setDirection('up')
+        } else {
+          setDirection('down')
+        }
+      }
+    }
+  }, [isOpen, popDirection])
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -154,12 +171,14 @@ export const DatePicker = ({ value, onChange, placeholder = 'วว/ดด/ป�
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 6 }}
+            initial={{ opacity: 0, scale: 0.95, y: direction === 'up' ? -6 : 6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 6 }}
+            exit={{ opacity: 0, scale: 0.95, y: direction === 'up' ? -6 : 6 }}
             transition={{ duration: 0.12 }}
             onClick={(e) => e.stopPropagation()}
-            className="absolute left-0 top-full mt-2 z-50 w-72 rounded-2xl border-[2.5px] border-black bg-white p-4 shadow-[6px_6px_0px_#000000] font-sans"
+            className={`absolute left-0 z-50 w-72 rounded-2xl border-[2.5px] border-black bg-white p-4 shadow-[6px_6px_0px_#000000] font-sans ${
+              direction === 'up' ? 'bottom-full mb-2 origin-bottom' : 'top-full mt-2 origin-top'
+            }`}
           >
             <div className="flex items-center justify-between mb-3 pb-2 border-b-2 border-black">
               <button
