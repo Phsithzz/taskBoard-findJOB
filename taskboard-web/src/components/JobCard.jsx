@@ -19,9 +19,8 @@ export const JobCard = ({ job, onDragStart }) => {
     <div
       draggable
       onDragStart={(e) => onDragStart(e, job.id)}
-      className="group relative rounded-xl border border-slate-200/90 bg-white p-4 shadow-2xs transition hover:shadow-md cursor-grab active:cursor-grabbing hover:border-slate-300"
+      className="group relative rounded-2xl border border-slate-200/90 bg-white p-4 shadow-2xs transition hover:shadow-md cursor-grab active:cursor-grabbing hover:border-slate-300"
     >
-      {/* Card Header: Position Title & Status Dropdown Pill (Image 1) */}
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-bold text-slate-900 text-sm leading-snug tracking-tight">
@@ -35,7 +34,6 @@ export const JobCard = ({ job, onDragStart }) => {
           </p>
         </div>
 
-        {/* Status Dropdown Trigger Pill */}
         <div className="relative">
           <button
             type="button"
@@ -43,12 +41,12 @@ export const JobCard = ({ job, onDragStart }) => {
               e.stopPropagation()
               setActiveDropdownId(isDropdownOpen ? null : job.id)
             }}
-            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold transition ${statusObj.pillClass} cursor-pointer`}
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${statusObj.pillClass}`}
           >
             {statusObj.icon}
             <span>{statusObj.label}</span>
-            <svg className="w-2.5 h-2.5 ml-0.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+            <svg className="w-3 h-3 ml-0.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
 
@@ -62,14 +60,11 @@ export const JobCard = ({ job, onDragStart }) => {
         </div>
       </div>
 
-      {/* Tags: Platform, WorkType, Salary */}
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        {/* Platform Badge */}
         <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-700">
           {job.platform || 'LinkedIn'}
         </span>
 
-        {/* Work Type Badge */}
         {job.work_type && (
           <span className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-0.5 text-[10px] font-medium text-indigo-700">
             <span>🏠</span>
@@ -77,7 +72,6 @@ export const JobCard = ({ job, onDragStart }) => {
           </span>
         )}
 
-        {/* Salary Badge */}
         {job.salary && (
           <span className="inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
             💰 {job.salary}
@@ -85,21 +79,18 @@ export const JobCard = ({ job, onDragStart }) => {
         )}
       </div>
 
-      {/* Notes Snippet (Image 1) */}
       {job.notes && (
-        <div className="mt-2.5 rounded-lg bg-slate-50 p-2 text-[11px] text-slate-600 line-clamp-2">
+        <div className="mt-2.5 rounded-xl bg-slate-50 p-2.5 text-[11px] text-slate-600 line-clamp-2">
           <span className="font-semibold text-slate-500">Notes:</span> {job.notes}
         </div>
       )}
 
-      {/* Card Footer: Saved Date & Action Buttons (Star, Edit, Delete, Link) */}
       <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5 text-[11px] text-slate-400">
         <span>
           {job.due ? `สัมภาษณ์: ${job.due}` : `บันทึกเมื่อ ${job.created_at || 'ไม่ระบุ'}`}
         </span>
 
         <div className="flex items-center space-x-1.5">
-          {/* Job Link */}
           {job.job_url && (
             <a
               href={job.job_url}
@@ -114,17 +105,15 @@ export const JobCard = ({ job, onDragStart }) => {
             </a>
           )}
 
-          {/* Star Button */}
           <button
             type="button"
             onClick={() => toggleStar(job)}
             title="ติดดาว"
-            className={`p-1 transition cursor-pointer ${job.starred ? 'text-amber-500 font-bold' : 'hover:text-amber-500'}`}
+            className={`p-1 transition cursor-pointer text-sm ${job.starred ? 'text-amber-500 font-bold' : 'hover:text-amber-500 text-slate-300'}`}
           >
             ★
           </button>
 
-          {/* Edit Button */}
           <button
             type="button"
             onClick={() => openEditModal(job)}
@@ -136,7 +125,6 @@ export const JobCard = ({ job, onDragStart }) => {
             </svg>
           </button>
 
-          {/* Delete Button */}
           <button
             type="button"
             onClick={() => deleteJob(job.id, job.company)}
