@@ -10,6 +10,13 @@ export const useJobStore = create((set, get) => ({
   loading: true,
   error: null,
 
+  mode: 'demo',
+  accessPin: '',
+  isUnlockModalOpen: false,
+  isLockedOut: false,
+  lockoutRemaining: 0,
+  attemptsRemaining: 3,
+
   platforms: (() => {
     try {
       const saved = localStorage.getItem('taskboard_platforms')
@@ -28,6 +35,50 @@ export const useJobStore = create((set, get) => ({
   editingJob: null,
   activeDropdownId: null,
   dragOverColumn: null,
+
+  openUnlockModal: () => set({ isUnlockModalOpen: true }),
+  closeUnlockModal: () => set({ isUnlockModalOpen: false }),
+
+  unlockPersonal: async (pin) => {
+    try {
+      set({ error: null })
+      const res = await jobApi.verifyPin(pin)
+      if (res.data?.success) {
+        set({
+          mode: 'personal',
+          accessPin: pin,
+          isUnlockModalOpen: false,
+          isLockedOut: false,
+          attemptsRemaining: 3,
+        })
+        toast.success('🔓 เข้าสู่โหมด Personal Board ส่วนตัวเรียบร้อย!')
+        get().fetchJobs()
+        return { success: true }
+      }
+      return { success: false }
+    } catch (err) {
+      if (err.response?.status === 429) {
+        const retryMin = err.response.data?.retry_after_minutes || 60
+        set({ isLockedOut: true, lockoutRemaining: retryMin, attemptsRemaining: 0 })
+        toast.error(`⛔ ใส่รหัสผิดครบ 3 ครั้ง! ระบบถูกล็อค ${retryMin} นาที`)
+        return { success: false, locked: true, retryMinutes: retryMin }
+      }
+      const attemptsLeft = err.response?.data?.attempts_left ?? 0
+      set({ attemptsRemaining: attemptsLeft })
+      toast.error(`❌ รหัส PIN ไม่ถูกต้อง (เหลือโอกาสอีก ${attemptsLeft} ครั้ง)`)
+      return { success: false, locked: false, attemptsLeft }
+    }
+  },
+
+  lockPersonal: () => {
+    set({
+      mode: 'demo',
+      accessPin: '',
+      isUnlockModalOpen: false,
+    })
+    toast.info('🔒 สลับกลับมายัง Demo Mode สำหรับบุคคลภายนอก')
+    get().fetchJobs()
+  },
 
   fetchJobs: async (signal) => {
     try {

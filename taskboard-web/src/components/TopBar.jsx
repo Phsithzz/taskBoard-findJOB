@@ -1,11 +1,14 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FiPlus, FiArrowRight } from 'react-icons/fi'
+import { FiPlus, FiArrowRight, FiLock, FiUnlock } from 'react-icons/fi'
 import { useJobStore } from '../stores/useJobStore'
 
 export const TopBar = () => {
   const jobs = useJobStore((state) => state.jobs)
   const openCreateModal = useJobStore((state) => state.openCreateModal)
+  const mode = useJobStore((state) => state.mode)
+  const openUnlockModal = useJobStore((state) => state.openUnlockModal)
+  const lockPersonal = useJobStore((state) => state.lockPersonal)
 
   const total = jobs.length
   const appliedCount = jobs.filter((j) => (j.status || '').toLowerCase() === 'applied').length
@@ -117,6 +120,34 @@ export const TopBar = () => {
       </div>
 
       <div className="flex items-center gap-3">
+        {mode === 'personal' ? (
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border-2 border-emerald-400 px-3 py-2 font-mono text-xs font-black shadow-[2px_2px_0px_#10b981]">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>PERSONAL</span>
+            </span>
+            <button
+              type="button"
+              onClick={lockPersonal}
+              className="inline-flex items-center gap-1 rounded-xl bg-rose-500 text-white border-2 border-black px-2.5 py-2 font-mono text-[11px] font-black hover:bg-rose-600 shadow-[2px_2px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] transition-all cursor-pointer"
+              title="ออกจากโหมดส่วนตัว กลับไปยัง Demo Mode"
+            >
+              <FiUnlock className="w-3.5 h-3.5" />
+              <span>EXIT</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={openUnlockModal}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-black text-[#C6FF33] border-2 border-[#C6FF33] px-3.5 py-2 font-mono text-xs font-black hover:bg-neutral-900 active:translate-x-[1px] active:translate-y-[1px] shadow-[2px_2px_0px_#C6FF33] transition-all cursor-pointer"
+            title="คลิกเพื่อปลดล็อคเข้าสู่ Personal Board"
+          >
+            <FiLock className="w-3.5 h-3.5" />
+            <span>DEMO MODE</span>
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => openCreateModal('applied')}

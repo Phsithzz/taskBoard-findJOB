@@ -6,6 +6,7 @@ import { TopBar } from './components/TopBar'
 import { FilterBar } from './components/FilterBar'
 import { KanbanBoard } from './components/KanbanBoard'
 import { JobModal } from './components/JobModal'
+import { UnlockModal } from './components/UnlockModal'
 
 export default function App() {
   const fetchJobs = useJobStore((state) => state.fetchJobs)
@@ -49,6 +50,7 @@ export default function App() {
       </div>
 
       <JobModal />
+      <UnlockModal />
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
