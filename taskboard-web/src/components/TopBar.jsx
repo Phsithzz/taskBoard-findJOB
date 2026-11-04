@@ -46,6 +46,11 @@ export const TopBar = () => {
 
         <div>
           <div className="flex items-center gap-2">
+            <img
+              src="/jobhunt-icon.png"
+              alt="JobHunt"
+              className="w-5 h-5 object-contain shrink-0"
+            />
             <h1 className="text-base font-black tracking-wider uppercase text-white font-mono">
               JOBHUNT // PHOOSITH
             </h1>
