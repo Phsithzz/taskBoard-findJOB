@@ -27,7 +27,8 @@ func (r *mongoJobRepository) getColl(ctx context.Context) *mongo.Collection {
 }
 
 func (r *mongoJobRepository) FindAll(ctx context.Context) ([]domain.Job, error) {
-	cur, err := r.getColl(ctx).Find(ctx, bson.M{})
+	coll := r.getColl(ctx)
+	cur, err := coll.Find(ctx, bson.M{})
 	if err != nil {
 		return []domain.Job{}, err
 	}
@@ -37,6 +38,16 @@ func (r *mongoJobRepository) FindAll(ctx context.Context) ([]domain.Job, error) 
 	if err := cur.All(ctx, &jobs); err != nil {
 		return []domain.Job{}, err
 	}
+
+	if len(jobs) == 0 && coll.Name() == "demo_tasks" {
+		SeedDemoTasks(r.db)
+		curDemo, errDemo := coll.Find(ctx, bson.M{})
+		if errDemo == nil {
+			defer curDemo.Close(ctx)
+			_ = curDemo.All(ctx, &jobs)
+		}
+	}
+
 	if jobs == nil {
 		jobs = []domain.Job{}
 	}
