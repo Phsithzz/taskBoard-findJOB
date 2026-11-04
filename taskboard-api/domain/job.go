@@ -6,6 +6,10 @@ import (
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
+type ContextKey string
+
+const CollectionContextKey ContextKey = "collection_name"
+
 type Job struct {
 	ID        bson.ObjectID `bson:"_id,omitempty" json:"id"`
 	Title     string        `bson:"title" json:"title"`

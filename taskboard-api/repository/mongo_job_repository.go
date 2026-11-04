@@ -10,17 +10,24 @@ import (
 )
 
 type mongoJobRepository struct {
-	coll *mongo.Collection
+	db *mongo.Database
 }
 
 func NewMongoJobRepository(db *mongo.Database) domain.JobRepository {
 	return &mongoJobRepository{
-		coll: db.Collection("tasks"),
+		db: db,
 	}
 }
 
+func (r *mongoJobRepository) getColl(ctx context.Context) *mongo.Collection {
+	if collName, ok := ctx.Value(domain.CollectionContextKey).(string); ok && collName != "" {
+		return r.db.Collection(collName)
+	}
+	return r.db.Collection("demo_tasks")
+}
+
 func (r *mongoJobRepository) FindAll(ctx context.Context) ([]domain.Job, error) {
-	cur, err := r.coll.Find(ctx, bson.M{})
+	cur, err := r.getColl(ctx).Find(ctx, bson.M{})
 	if err != nil {
 		return []domain.Job{}, err
 	}
@@ -38,7 +45,7 @@ func (r *mongoJobRepository) FindAll(ctx context.Context) ([]domain.Job, error) 
 
 func (r *mongoJobRepository) Create(ctx context.Context, job domain.Job) (domain.Job, error) {
 	job.ID = bson.NewObjectID()
-	_, err := r.coll.InsertOne(ctx, job)
+	_, err := r.getColl(ctx).InsertOne(ctx, job)
 	if err != nil {
 		return domain.Job{}, err
 	}
@@ -68,7 +75,7 @@ func (r *mongoJobRepository) Update(ctx context.Context, id string, job domain.J
 		},
 	}
 
-	res, err := r.coll.UpdateOne(ctx, bson.M{"_id": objID}, update)
+	res, err := r.getColl(ctx).UpdateOne(ctx, bson.M{"_id": objID}, update)
 	if err != nil || res.MatchedCount == 0 {
 		return domain.Job{}, false, err
 	}
@@ -83,7 +90,7 @@ func (r *mongoJobRepository) Delete(ctx context.Context, id string) (bool, error
 		return false, err
 	}
 
-	res, err := r.coll.DeleteOne(ctx, bson.M{"_id": objID})
+	res, err := r.getColl(ctx).DeleteOne(ctx, bson.M{"_id": objID})
 	if err != nil || res.DeletedCount == 0 {
 		return false, err
 	}

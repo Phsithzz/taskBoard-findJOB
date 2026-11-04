@@ -9,18 +9,24 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
+	"taskboard-api/auth"
 	"taskboard-api/config"
 	"taskboard-api/handlers"
+	"taskboard-api/middleware"
 	"taskboard-api/repository"
 	"taskboard-api/service"
 )
 
 func main() {
 	db := config.InitDB()
+	repository.SeedDemoTasks(db)
+
+	pinManager := auth.NewPinManager()
 
 	jobRepo := repository.NewMongoJobRepository(db)
 	jobService := service.NewJobService(jobRepo)
 	jobHandler := handlers.NewJobHandler(jobService)
+	authHandler := handlers.NewAuthHandler(pinManager)
 
 	router := gin.Default()
 
@@ -36,7 +42,7 @@ func main() {
 	corsConfig := cors.Config{
 		AllowOrigins:     allowedOrigins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Accept", "Authorization", "X-Requested-With"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Accept", "Authorization", "X-Requested-With", "X-Access-PIN"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
@@ -47,7 +53,14 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"message": "JobHunt Tracker API is running"})
 	})
 
+	authGroup := router.Group("/auth")
+	{
+		authGroup.POST("/verify", authHandler.VerifyPin)
+		authGroup.GET("/status", authHandler.GetStatus)
+	}
+
 	tasks := router.Group("/tasks")
+	tasks.Use(middleware.ResolveWorkspace(pinManager))
 	{
 		tasks.GET("", jobHandler.GetJobs)
 		tasks.POST("", jobHandler.CreateJob)
