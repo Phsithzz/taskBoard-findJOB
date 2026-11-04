@@ -25,16 +25,16 @@ export default function App() {
     >
       <div className="w-full bg-[#C6FF33] text-black font-mono font-black text-[11px] uppercase tracking-widest py-1.5 px-4 sm:px-8 border-b-2 border-black flex items-center justify-between overflow-hidden select-none">
         <div className="flex items-center gap-6">
-          <span>● LIVE APPLICATION TRACKING</span>
-          <span className="hidden sm:inline">● SCALABLE CAREER PIPELINE</span>
-          <span className="hidden md:inline">● COMMUNITY DRIVEN</span>
-          <span>● MADE FOR THE FUTURE</span>
+          <span>● LIVE JOB APPLICATION TRACKER</span>
+          <span className="hidden sm:inline">● FULL-STACK GO & REACT PIPELINE</span>
+          <span className="hidden md:inline">● CLEAN ARCHITECTURE & ZUSTAND</span>
+          <span>● PRODUCTION READY</span>
         </div>
         <div className="hidden sm:flex items-center gap-3 text-[10px]">
           <span className="bg-black text-[#C6FF33] px-2 py-0.5 rounded font-black">
-            GRIDSTER // 2026
+            JOBHUNT // 2026
           </span>
-          <span className="font-bold">BLACK • VIOLET • LIME • WHITE</span>
+          <span className="font-bold">GO • GIN • REACT • MONGODB</span>
         </div>
       </div>
 
