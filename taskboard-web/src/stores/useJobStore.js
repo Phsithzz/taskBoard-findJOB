@@ -35,6 +35,7 @@ export const useJobStore = create((set, get) => ({
   editingJob: null,
   activeDropdownId: null,
   dragOverColumn: null,
+  activeStatusView: null,
 
   openUnlockModal: () => set({ isUnlockModalOpen: true }),
   closeUnlockModal: () => set({ isUnlockModalOpen: false }),
@@ -215,6 +216,9 @@ export const useJobStore = create((set, get) => ({
   closeModal: () => {
     set({ isModalOpen: false, editingJob: null })
   },
+
+  openStatusView: (statusKey) => set({ activeStatusView: statusKey }),
+  closeStatusView: () => set({ activeStatusView: null }),
 
   setSearchQuery: (q) => set({ searchQuery: q }),
   setSelectedPlatformFilter: (p) => set({ selectedPlatformFilter: p }),

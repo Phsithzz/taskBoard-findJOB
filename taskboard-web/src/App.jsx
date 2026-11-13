@@ -7,6 +7,7 @@ import { FilterBar } from './components/FilterBar'
 import { KanbanBoard } from './components/KanbanBoard'
 import { JobModal } from './components/JobModal'
 import { UnlockModal } from './components/UnlockModal'
+import { StatusDetailModal } from './components/StatusDetailModal'
 
 export default function App() {
   const fetchJobs = useJobStore((state) => state.fetchJobs)
@@ -50,6 +51,7 @@ export default function App() {
       </div>
 
       <JobModal />
+      <StatusDetailModal />
       <UnlockModal />
       <ToastContainer
         position="bottom-right"

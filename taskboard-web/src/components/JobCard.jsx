@@ -14,7 +14,7 @@ export const JobCard = ({ job, onDragStart }) => {
   const openEditModal = useJobStore((state) => state.openEditModal)
   const deleteJob = useJobStore((state) => state.deleteJob)
 
-  const dropdownRef = useRef(null)
+  const statusButtonRef = useRef(null)
   const statusObj = STATUS_CONFIG[(job.status || 'applied').toLowerCase()] || STATUS_CONFIG.applied
   const isDropdownOpen = activeDropdownId === job.id
 
@@ -77,6 +77,7 @@ export const JobCard = ({ job, onDragStart }) => {
       <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px]">
         <div className="relative inline-block">
           <button
+            ref={statusButtonRef}
             type="button"
             onClick={(e) => {
               e.stopPropagation()
@@ -92,8 +93,9 @@ export const JobCard = ({ job, onDragStart }) => {
           {isDropdownOpen && (
             <StatusDropdown
               job={job}
+              anchorRef={statusButtonRef}
+              onClose={() => setActiveDropdownId(null)}
               onSelectStatus={updateJobStatus}
-              dropdownRef={dropdownRef}
             />
           )}
         </div>
